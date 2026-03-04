@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NOCTIS</title>
+
+<style>
+
+body{
+font-family:Helvetica, Arial, sans-serif;
+margin:0;
+background:white;
+color:black;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+border-bottom:1px solid #eee;
+position:sticky;
+top:0;
+background:white;
+}
+
+.logo{
+font-size:22px;
+letter-spacing:4px;
+font-weight:bold;
+}
+
+nav a{
+margin-left:25px;
+text-decoration:none;
+color:black;
+}
+
+.cart-btn{
+cursor:pointer;
+font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+height:80vh;
+background:black;
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:70px;
+letter-spacing:10px;
+margin:0;
+}
+
+.shop-btn{
+background:white;
+color:black;
+padding:12px 25px;
+margin-top:20px;
+border:none;
+cursor:pointer;
+}
+
+/* COUNTDOWN */
+
+.countdown{
+margin-top:20px;
+font-size:18px;
+}
+
+/* PRODUCT GRID */
+
+.section{
+padding:70px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:40px;
+}
+
+.card{
+text-align:center;
+border:1px solid #eee;
+padding:20px;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card img{
+width:100%;
+}
+
+.price{
+margin:10px 0;
+font-weight:bold;
+}
+
+.buy{
+background:black;
+color:white;
+border:none;
+padding:12px 20px;
+cursor:pointer;
+}
+
+/* CART */
+
+.cart{
+position:fixed;
+right:-400px;
+top:0;
+width:350px;
+height:100%;
+background:white;
+border-left:1px solid #eee;
+padding:30px;
+transition:.4s;
+overflow:auto;
+}
+
+.cart.open{
+right:0;
+}
+
+.cart h2{
+margin-top:0;
+}
+
+.cart-item{
+margin-bottom:20px;
+}
+
+.checkout{
+background:black;
+color:white;
+border:none;
+padding:15px;
+width:100%;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+header{
+padding:20px;
+}
+
+.section{
+padding:40px 20px;
+}
+
+.hero h1{
+font-size:40px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">NOCTIS</div>
+
+<nav>
+
+<a href="#shirts">Shirts</a>
+<a href="#pants">Pants</a>
+<a href="#cases">Cases</a>
+<a href="#accessories">Accessories</a>
+
+</nav>
+
+<div class="cart-btn" onclick="toggleCart()">
+Cart (<span id="cartCount">0</span>)
+</div>
+
+</header>
+
+
+<section class="hero">
+
+<h1>NOCTIS</h1>
+
+<p>ALL WORTH IT</p>
+
+<button class="shop-btn" onclick="scrollShop()">Shop Drop</button>
+
+<div class="countdown" id="countdown"></div>
+
+</section>
+
+
+<section class="section" id="shirts">
+
+<h2>Shirts</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="shirt.jpg">
+
+<h3>All Worth It Tee</h3>
+
+<p class="price">$25</p>
+
+<button class="buy" onclick="addToCart('All Worth It Tee',25)">
+Add To Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="pants">
+
+<h2>Pants</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="pants.jpg">
+
+<h3>Noctis Sweatpants</h3>
+
+<p class="price">$40</p>
+
+<button class="buy" onclick="addToCart('Noctis Sweatpants',40)">
+Add To Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="cases">
+
+<h2>Phone Cases</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="case.jpg">
+
+<h3>Noctis Case</h3>
+
+<p class="price">$20</p>
+
+<button class="buy" onclick="addToCart('Noctis Case',20)">
+Add To Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="accessories">
+
+<h2>Accessories</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="hat.jpg">
+
+<h3>Noctis Hat</h3>
+
+<p class="price">$25</p>
+
+<button class="buy" onclick="addToCart('Noctis Hat',25)">
+Add To Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="cart" id="cart">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3>Total: $<span id="total">0</span></h3>
+
+<a href="https://buy.stripe.com/testlink">
+<button class="checkout">Checkout With Stripe</button>
+</a>
+
+</div>
+
+
+<script>
+
+let cart=[]
+let total=0
+
+function addToCart(name,price){
+
+cart.push({name,price})
+
+total+=price
+
+document.getElementById("cartCount").innerText=cart.length
+
+document.getElementById("total").innerText=total
+
+renderCart()
+
+}
+
+function renderCart(){
+
+let container=document.getElementById("cartItems")
+
+container.innerHTML=""
+
+cart.forEach(item=>{
+
+container.innerHTML+=`<div class="cart-item">${item.name} - $${item.price}</div>`
+
+})
+
+}
+
+function toggleCart(){
+
+document.getElementById("cart").classList.toggle("open")
+
+}
+
+function scrollShop(){
+
+document.getElementById("shirts").scrollIntoView({behavior:"smooth"})
+
+}
+
+
+/* DROP COUNTDOWN */
+
+let drop=new Date()
+
+drop.setDate(drop.getDate()+3)
+
+setInterval(()=>{
+
+let now=new Date()
+
+let diff=drop-now
+
+let days=Math.floor(diff/(1000*60*60*24))
+
+let hours=Math.floor(diff/(1000*60*60)%24)
+
+let minutes=Math.floor(diff/(1000*60)%60)
+
+document.getElementById("countdown").innerText=
+"Drop in "+days+"d "+hours+"h "+minutes+"m"
+
+},1000)
+
+</script>
+
+</body>
+</html>
