@@ -16,13 +16,11 @@ background:white;
 color:black;
 }
 
-/* HEADER */
-
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 60px;
+padding:20px 50px;
 border-bottom:1px solid #eee;
 position:sticky;
 top:0;
@@ -31,8 +29,8 @@ background:white;
 
 .logo{
 font-size:22px;
-letter-spacing:4px;
 font-weight:bold;
+letter-spacing:4px;
 }
 
 nav a{
@@ -60,31 +58,23 @@ text-align:center;
 }
 
 .hero h1{
-font-size:70px;
-letter-spacing:10px;
+font-size:60px;
+letter-spacing:8px;
 margin:0;
 }
 
 .shop-btn{
-background:white;
-color:black;
-padding:12px 25px;
 margin-top:20px;
+padding:12px 25px;
+background:white;
 border:none;
 cursor:pointer;
 }
 
-/* COUNTDOWN */
-
-.countdown{
-margin-top:20px;
-font-size:18px;
-}
-
-/* PRODUCT GRID */
+/* PRODUCTS */
 
 .section{
-padding:70px;
+padding:60px;
 }
 
 .grid{
@@ -94,9 +84,9 @@ gap:40px;
 }
 
 .card{
-text-align:center;
 border:1px solid #eee;
 padding:20px;
+text-align:center;
 transition:.3s;
 }
 
@@ -125,13 +115,13 @@ cursor:pointer;
 
 .cart{
 position:fixed;
-right:-400px;
+right:-350px;
 top:0;
-width:350px;
+width:320px;
 height:100%;
 background:white;
 border-left:1px solid #eee;
-padding:30px;
+padding:25px;
 transition:.4s;
 overflow:auto;
 }
@@ -140,39 +130,13 @@ overflow:auto;
 right:0;
 }
 
-.cart h2{
-margin-top:0;
-}
-
-.cart-item{
-margin-bottom:20px;
-}
-
 .checkout{
 background:black;
 color:white;
 border:none;
-padding:15px;
+padding:14px;
 width:100%;
 cursor:pointer;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-header{
-padding:20px;
-}
-
-.section{
-padding:40px 20px;
-}
-
-.hero h1{
-font-size:40px;
-}
-
 }
 
 </style>
@@ -207,110 +171,32 @@ Cart (<span id="cartCount">0</span>)
 
 <p>ALL WORTH IT</p>
 
-<button class="shop-btn" onclick="scrollShop()">Shop Drop</button>
-
-<div class="countdown" id="countdown"></div>
+<button class="shop-btn" onclick="scrollShop()">Shop</button>
 
 </section>
 
 
-<section class="section" id="shirts">
-
+<section class="section" id="shirtsSection">
 <h2>Shirts</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<img src="shirt.jpg">
-
-<h3>All Worth It Tee</h3>
-
-<p class="price">$25</p>
-
-<button class="buy" onclick="addToCart('All Worth It Tee',25)">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
+<div class="grid" id="shirts"></div>
 </section>
 
 
-<section class="section" id="pants">
-
+<section class="section" id="pantsSection">
 <h2>Pants</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<img src="pants.jpg">
-
-<h3>Noctis Sweatpants</h3>
-
-<p class="price">$40</p>
-
-<button class="buy" onclick="addToCart('Noctis Sweatpants',40)">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
+<div class="grid" id="pants"></div>
 </section>
 
 
-<section class="section" id="cases">
-
+<section class="section" id="casesSection">
 <h2>Phone Cases</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<img src="case.jpg">
-
-<h3>Noctis Case</h3>
-
-<p class="price">$20</p>
-
-<button class="buy" onclick="addToCart('Noctis Case',20)">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
+<div class="grid" id="cases"></div>
 </section>
 
 
-<section class="section" id="accessories">
-
+<section class="section" id="accessoriesSection">
 <h2>Accessories</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<img src="hat.jpg">
-
-<h3>Noctis Hat</h3>
-
-<p class="price">$25</p>
-
-<button class="buy" onclick="addToCart('Noctis Hat',25)">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
+<div class="grid" id="accessories"></div>
 </section>
 
 
@@ -331,17 +217,88 @@ Add To Cart
 
 <script>
 
+/* PRODUCT LIST
+ADD PRODUCTS HERE */
+
+const products = [
+const products = [
+
+{
+name:"All Worth It Tee",
+price:25,
+image:"shirt1.jpg",
+category:"shirts",
+sizes:["S","M","L","XL"],
+colors:["Black","Sand"]
+},
+
+{
+name:"Noctis Sweatpants",
+price:40,
+image:"pants1.jpg",
+category:"pants",
+sizes:["S","M","L","XL"],
+colors:["Black"]
+},
+
+{
+name:"Noctis Phone Case",
+price:20,
+image:"case1.jpg",
+category:"cases",
+sizes:["Standard"],
+colors:["Black"]
+}
+
+]
+
+]
+
+
+/* CREATE PRODUCT CARDS */
+
+function loadProducts(){
+
+products.forEach(product=>{
+
+const card = `
+
+<div class="card">
+
+<img src="${product.image}">
+
+<h3>${product.name}</h3>
+
+<p class="price">$${product.price}</p>
+
+<button class="buy" onclick="addToCart('${product.name}',${product.price})">
+Add To Cart
+</button>
+
+</div>
+
+`
+
+document.getElementById(product.category).innerHTML += card
+
+})
+
+}
+
+loadProducts()
+
+
+/* CART */
+
 let cart=[]
 let total=0
 
 function addToCart(name,price){
 
 cart.push({name,price})
-
 total+=price
 
 document.getElementById("cartCount").innerText=cart.length
-
 document.getElementById("total").innerText=total
 
 renderCart()
@@ -351,16 +308,18 @@ renderCart()
 function renderCart(){
 
 let container=document.getElementById("cartItems")
-
 container.innerHTML=""
 
 cart.forEach(item=>{
 
-container.innerHTML+=`<div class="cart-item">${item.name} - $${item.price}</div>`
+container.innerHTML += `<div>${item.name} - $${item.price}</div>`
 
 })
 
 }
+
+
+/* CART TOGGLE */
 
 function toggleCart(){
 
@@ -368,35 +327,16 @@ document.getElementById("cart").classList.toggle("open")
 
 }
 
+
+/* SCROLL */
+
 function scrollShop(){
 
-document.getElementById("shirts").scrollIntoView({behavior:"smooth"})
+document.getElementById("shirtsSection").scrollIntoView({
+behavior:"smooth"
+})
 
 }
-
-
-/* DROP COUNTDOWN */
-
-let drop=new Date()
-
-drop.setDate(drop.getDate()+3)
-
-setInterval(()=>{
-
-let now=new Date()
-
-let diff=drop-now
-
-let days=Math.floor(diff/(1000*60*60*24))
-
-let hours=Math.floor(diff/(1000*60*60)%24)
-
-let minutes=Math.floor(diff/(1000*60)%60)
-
-document.getElementById("countdown").innerText=
-"Drop in "+days+"d "+hours+"h "+minutes+"m"
-
-},1000)
 
 </script>
 
