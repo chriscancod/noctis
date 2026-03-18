@@ -1,344 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N O C T I S</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    a { color: inherit; text-decoration: none; }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    :root {
+      --black: #080808;
+      --white: #f0ece4;
+      --grey: #888;
+      --border: #222;
+    }
 
-<title>NOCTIS</title>
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+    }
 
-<style>
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--black);
+      z-index: 100;
+    }
 
-body{
-font-family:Helvetica, Arial, sans-serif;
-margin:0;
-background:white;
-color:black;
-}
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 8px;
+      color: var(--white);
+    }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 50px;
-border-bottom:1px solid #eee;
-position:sticky;
-top:0;
-background:white;
-}
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
 
-.logo{
-font-size:22px;
-font-weight:bold;
-letter-spacing:4px;
-}
+    .nav-links a {
+      color: var(--grey);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
 
-nav a{
-margin-left:25px;
-text-decoration:none;
-color:black;
-}
+    .nav-links a:hover { color: var(--white); }
 
-.cart-btn{
-cursor:pointer;
-font-weight:bold;
-}
+    .nav-right {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--grey);
+      cursor: pointer;
+    }
 
-/* HERO */
+    /* HERO */
+    .hero {
+      min-height: 90vh;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 64px 48px;
+      border-bottom: 1px solid var(--border);
+    }
 
-.hero{
-height:80vh;
-background:black;
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--grey);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
 
-.hero h1{
-font-size:60px;
-letter-spacing:8px;
-margin:0;
-}
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 15vw, 180px);
+      line-height: 0.9;
+      letter-spacing: 4px;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
 
-.shop-btn{
-margin-top:20px;
-padding:12px 25px;
-background:white;
-border:none;
-cursor:pointer;
-}
+    .hero-sub {
+      font-size: 12px;
+      color: var(--grey);
+      letter-spacing: 2px;
+      max-width: 400px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
 
-/* PRODUCTS */
+    .hero-cta {
+      display: inline-block;
+      background: var(--white);
+      color: var(--black);
+      padding: 16px 40px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
 
-.section{
-padding:60px;
-}
+    .hero-cta:hover { background: var(--grey); }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:40px;
-}
+    /* MARQUEE */
+    .marquee {
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
 
-.card{
-border:1px solid #eee;
-padding:20px;
-text-align:center;
-transition:.3s;
-}
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 6px;
+      color: #333;
+    }
 
-.card:hover{
-transform:translateY(-6px);
-}
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
 
-.card img{
-width:100%;
-}
+    /* SHOP */
+    .section {
+      padding: 80px 48px;
+    }
 
-.price{
-margin:10px 0;
-font-weight:bold;
-}
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
 
-.buy{
-background:black;
-color:white;
-border:none;
-padding:12px 20px;
-cursor:pointer;
-}
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 4px;
+    }
 
-/* CART */
+    .section-count {
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 2px;
+    }
 
-.cart{
-position:fixed;
-right:-350px;
-top:0;
-width:320px;
-height:100%;
-background:white;
-border-left:1px solid #eee;
-padding:25px;
-transition:.4s;
-overflow:auto;
-}
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
 
-.cart.open{
-right:0;
-}
+    .product-card {
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
 
-.checkout{
-background:black;
-color:white;
-border:none;
-padding:14px;
-width:100%;
-cursor:pointer;
-}
+    .product-card:hover { border-color: #444; }
 
-</style>
+    .product-img {
+      aspect-ratio: 3/4;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
+    .product-img-placeholder {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      letter-spacing: 4px;
+      color: #2a2a2a;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--white);
+      color: var(--black);
+      font-size: 9px;
+      letter-spacing: 2px;
+      padding: 4px 8px;
+    }
+
+    .product-info {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .product-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .product-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--grey);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 6px;
+      color: #333;
+    }
+
+    .footer-text {
+      font-size: 10px;
+      color: #333;
+      letter-spacing: 2px;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-
-<div class="logo">NOCTIS</div>
-
-<nav>
-
-<a href="#shirts">Shirts</a>
-<a href="#pants">Pants</a>
-<a href="#cases">Cases</a>
-<a href="#accessories">Accessories</a>
-
-</nav>
-
-<div class="cart-btn" onclick="toggleCart()">
-Cart (<span id="cartCount">0</span>)
-</div>
-
-</header>
-
-
-<section class="hero">
-
-<h1>NOCTIS</h1>
-
-<p>ALL WORTH IT</p>
-
-<button class="shop-btn" onclick="scrollShop()">Shop</button>
-
-</section>
-
-
-<section class="section" id="shirtsSection">
-<h2>Shirts</h2>
-<div class="grid" id="shirts"></div>
-</section>
-
-
-<section class="section" id="pantsSection">
-<h2>Pants</h2>
-<div class="grid" id="pants"></div>
-</section>
-
-
-<section class="section" id="casesSection">
-<h2>Phone Cases</h2>
-<div class="grid" id="cases"></div>
-</section>
-
-
-<section class="section" id="accessoriesSection">
-<h2>Accessories</h2>
-<div class="grid" id="accessories"></div>
-</section>
-
-
-<div class="cart" id="cart">
-
-<h2>Your Cart</h2>
-
-<div id="cartItems"></div>
-
-<h3>Total: $<span id="total">0</span></h3>
-
-<a href="https://buy.stripe.com/testlink">
-<button class="checkout">Checkout With Stripe</button>
-</a>
-
-</div>
-
-
-<script>
-
-/* PRODUCT LIST
-ADD PRODUCTS HERE */
-
-const products = [
-const products = [
-
-{
-name:"All Worth It Tee",
-price:25,
-image:"shirt1.jpg",
-category:"shirts",
-sizes:["S","M","L","XL"],
-colors:["Black","Sand"]
-},
-
-{
-name:"Noctis Sweatpants",
-price:40,
-image:"pants1.jpg",
-category:"pants",
-sizes:["S","M","L","XL"],
-colors:["Black"]
-},
-
-{
-name:"Noctis Phone Case",
-price:20,
-image:"case1.jpg",
-category:"cases",
-sizes:["Standard"],
-colors:["Black"]
-}
-
-]
-
-]
-
-
-/* CREATE PRODUCT CARDS */
-
-function loadProducts(){
-
-products.forEach(product=>{
-
-const card = `
-
-<div class="card">
-
-<img src="${product.image}">
-
-<h3>${product.name}</h3>
-
-<p class="price">$${product.price}</p>
-
-<button class="buy" onclick="addToCart('${product.name}',${product.price})">
-Add To Cart
-</button>
-
-</div>
-
-`
-
-document.getElementById(product.category).innerHTML += card
-
-})
-
-}
-
-loadProducts()
-
-
-/* CART */
-
-let cart=[]
-let total=0
-
-function addToCart(name,price){
-
-cart.push({name,price})
-total+=price
-
-document.getElementById("cartCount").innerText=cart.length
-document.getElementById("total").innerText=total
-
-renderCart()
-
-}
-
-function renderCart(){
-
-let container=document.getElementById("cartItems")
-container.innerHTML=""
-
-cart.forEach(item=>{
-
-container.innerHTML += `<div>${item.name} - $${item.price}</div>`
-
-})
-
-}
-
-
-/* CART TOGGLE */
-
-function toggleCart(){
-
-document.getElementById("cart").classList.toggle("open")
-
-}
-
-
-/* SCROLL */
-
-function scrollShop(){
-
-document.getElementById("shirtsSection").scrollIntoView({
-behavior:"smooth"
-})
-
-}
-
-</script>
+  <nav>
+    <div class="nav-logo">N O C T I S</div>
+    <ul class="nav-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Our Story</a></li>
+    </ul>
+    <div class="nav-right">Cart (0)</div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">// New Collection — 2025</div>
+    <h1 class="hero-title">BUILT FOR<br>THE NIGHT</h1>
+    <p class="hero-sub">Premium streetwear for those who move in the dark. No compromises. No noise. Just quality.</p>
+    <a href="#shop" class="hero-cta">Shop Now</a>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-inner">
+      N O C T I S &nbsp;&nbsp;&nbsp; PREMIUM STREETWEAR &nbsp;&nbsp;&nbsp; NIGHT.INC &nbsp;&nbsp;&nbsp; HUSTLERS WORLDWIDE &nbsp;&nbsp;&nbsp; N O C T I S &nbsp;&nbsp;&nbsp; PREMIUM STREETWEAR &nbsp;&nbsp;&nbsp; NIGHT.INC &nbsp;&nbsp;&nbsp; HUSTLERS WORLDWIDE &nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+
+  <section class="section" id="shop">
+    <div class="section-header">
+      <div class="section-title">SHOP</div>
+      <div class="section-count" id="product-count"></div>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">N O C T I S</div>
+    <div class="footer-text">© 2025 NIGHT.INC — ALL RIGHTS RESERVED</div>
+  </footer>
+
+  <script>
+    const products = [
+      { name: "Shadow Tee", category: "Tops", price: 85, tag: "New" },
+      { name: "Cargo Pants", category: "Bottoms", price: 120, tag: "New" },
+      { name: "Night Hoodie", category: "Tops", price: 150, tag: "Bestseller" },
+      { name: "Stealth Cap", category: "Accessories", price: 45, tag: null },
+      { name: "Utility Vest", category: "Tops", price: 135, tag: "New" },
+      { name: "Track Pants", category: "Bottoms", price: 110, tag: null }
+    ]
+
+    const grid = document.getElementById("product-grid")
+    const count = document.getElementById("product-count")
+    count.textContent = `${products.length} Products`
+
+    products.forEach(product => {
+      const tag = product.tag ? `<div class="product-tag">${product.tag}</div>` : ""
+      grid.innerHTML += `
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-img-placeholder">N</div>
+            ${tag}
+          </div>
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-details">
+              <span>${product.category}</span>
+              <span>$${product.price}</span>
+            </div>
+          </div>
+        </div>
+      `
+    })
+  </script>
 
 </body>
 </html>
