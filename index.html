@@ -248,6 +248,134 @@
       color: #333;
       letter-spacing: 2px;
     }
+    /* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 200;
+  padding: 48px;
+  overflow-y: auto;
+}
+
+.modal-overlay.open { display: flex; align-items: center; justify-content: center; }
+
+.modal {
+  background: #0f0f0f;
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.modal-img {
+  aspect-ratio: 3/4;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-img-placeholder {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  color: #2a2a2a;
+  letter-spacing: 4px;
+}
+
+.modal-info {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-category {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--grey);
+  text-transform: uppercase;
+}
+
+.modal-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.modal-price {
+  font-size: 24px;
+  color: var(--white);
+}
+
+.modal-desc {
+  font-size: 12px;
+  color: var(--grey);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.size-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--grey);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.size-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--white);
+  padding: 8px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.size-btn:hover, .size-btn.selected {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+.add-to-cart {
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  padding: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.add-to-cart:hover { background: var(--grey); }
+
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+}
   </style>
 </head>
 <body>
@@ -287,40 +415,114 @@
     <div class="footer-logo">N O C T I S</div>
     <div class="footer-text">© 2025 NIGHT.INC — ALL RIGHTS RESERVED</div>
   </footer>
-
+<!-- shirts are 30 ,hoodies are 60, pants are 55 ,hoodie+sweats are 105 ,beanies are 20 ,stikers are 5 and clikeys are 5 -->
   <script>
-    const products = [
-      { name: "Shadow Tee", category: "Tops", price: 85, tag: "New" },
-      { name: "Cargo Pants", category: "Bottoms", price: 120, tag: "New" },
-      { name: "Night Hoodie", category: "Tops", price: 150, tag: "Bestseller" },
-      { name: "Stealth Cap", category: "Accessories", price: 45, tag: null },
-      { name: "Utility Vest", category: "Tops", price: 135, tag: "New" },
-      { name: "Track Pants", category: "Bottoms", price: 110, tag: null }
-    ]
 
-    const grid = document.getElementById("product-grid")
-    const count = document.getElementById("product-count")
-    count.textContent = `${products.length} Products`
+const products = [
+  { 
+    id: 1,
+    name: "All Worth It Tee", 
+    category: "Tops", 
+    price: 30, 
+    tag: "New",
+    description: "Cotton tee with 'All Worth It' graphic. Dropped shoulder and relaxed fit — for those who know the grind never stops.",
+    sizes: ["S", "M", "L", "XL"]
+  },
+  { 
+    id: 2,
+    name: "Cargo Pants", 
+    category: "Bottoms", 
+    price: 55, 
+    tag: "New",
+    description: "Relaxed fit cargo pants with utility pockets. Tapered leg. Built to last.",
+    sizes: ["S", "M", "L", "XL"]
+  },
+  { 
+    id: 3,
+    name: "All Worth It Hoodie", 
+    category: "Tops", 
+    price: 60, 
+    tag: "Bestseller",
+    description: "Premium heavyweight hoodie. Oversized fit, kangaroo pocket, embroidered N O C T I S logo.",
+    sizes: ["S", "M", "L", "XL"]
+  },
+  { 
+    id: 4,
+    name: "Clikey", 
+    category: "Accessories", 
+    price: 5, 
+    tag: "New",
+    description: "Sleek minimalist keychain for the modern urbanite. Durable build, secure locking mechanism. Keep your essentials close.",
+    sizes: ["One Size"]
+  }
+]
 
-    products.forEach(product => {
-      const tag = product.tag ? `<div class="product-tag">${product.tag}</div>` : ""
-      grid.innerHTML += `
-        <div class="product-card">
-          <div class="product-img">
-            <div class="product-img-placeholder">N</div>
-            ${tag}
-          </div>
-          <div class="product-info">
-            <div class="product-name">${product.name}</div>
-            <div class="product-details">
-              <span>${product.category}</span>
-              <span>$${product.price}</span>
-            </div>
-          </div>
+const grid = document.getElementById("product-grid")
+const count = document.getElementById("product-count")
+count.textContent = `${products.length} Products`
+
+products.forEach(product => {
+  const tag = product.tag ? `<div class="product-tag">${product.tag}</div>` : ""
+  grid.innerHTML += `
+    <div class="product-card" onclick="openModal(${product.id})">
+      <div class="product-img">
+        <div class="product-img-placeholder">N</div>
+        ${tag}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${product.name}</div>
+        <div class="product-details">
+          <span>${product.category}</span>
+          <span>$${product.price}</span>
         </div>
-      `
-    })
-  </script>
+      </div>
+    </div>
+  `
+})
 
+function openModal(id) {
+  const product = products.find(p => p.id === id)
+  document.getElementById("modal-category").textContent = product.category
+  document.getElementById("modal-name").textContent = product.name
+  document.getElementById("modal-price").textContent = `$${product.price}`
+  document.getElementById("modal-desc").textContent = product.description
+
+  const sizesContainer = document.getElementById("modal-sizes")
+  sizesContainer.innerHTML = ""
+  product.sizes.forEach(size => {
+    sizesContainer.innerHTML += `<button class="size-btn" onclick="selectSize(this)">${size}</button>`
+  })
+
+  document.getElementById("modal-overlay").classList.add("open")
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").classList.remove("open")
+}
+
+function selectSize(btn) {
+  document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected"))
+  btn.classList.add("selected")
+}
+  </script>
+<div class="modal-overlay" id="modal-overlay">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal">
+    <div class="modal-img">
+      <div class="modal-img-placeholder">N</div>
+    </div>
+    <div class="modal-info">
+      <div class="modal-category" id="modal-category"></div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div>
+        <div class="size-label">Select Size</div>
+        <div class="size-options" id="modal-sizes"></div>
+      </div>
+      <button class="add-to-cart">ADD TO CART</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
