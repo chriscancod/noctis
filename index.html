@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOCTIS + 2AM</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital@1&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================================
+  ✏️  EDIT YOUR SITE HERE
+
+  SOCIAL LINKS — paste your real URLs
+  TECH — your apps / software (NOCTIS page)
+  CLOTHING — your 2AM products
+
+  TO EDIT A PRODUCT: change the text between the quotes
+  TO ADD A PRODUCT:  copy a block, paste above the ]
+  TO REMOVE:         delete the block
+  TO ADD ONE PHOTO:   image: "front.jpg"
+  OR MULTIPLE:        image: ["front.jpg", "back.jpg", "detail.jpg"]
+  OR ALSO:            images: ["front.jpg", "back.jpg"]   ← either key works
+                      ↑ just put the photo file in the SAME FOLDER as this HTML file
+                        then type the filename here. That's it.
+
+  TO ADD MULTIPLE:    images: ["front.jpg", "back.jpg", "detail.jpg"]
+                      ↑ swipeable gallery in the product popup
+                        again — just put all photos in the same folder as this file
+  TO ADD SQUARE:      square: "https://square.link/..."
+  TO MARK SOLD OUT:   soldOut: true
+  TO FEATURE (hero):  featured: true  ← only ONE at a time
+
+  COLOR PICKER
+  ────────────
+  Add a "colors" field to any clothing product like this:
+    colors: ["#000000", "#ffffff", "#cc1111"]
+  Use any hex color codes. Leave out colors: [] to show no picker.
+============================================================ -->
+
+<script>
+
+// ── SOCIAL LINKS ────────────────────────────────────────────
+const SOCIAL = {
+  instagram: "https://www.instagram.com/noctisbynight/?hl=en",
+  tiktok:    "https://www.tiktok.com/@noctisbynight",
+  twitter:   "https://x.com/noctisbynight",
+};
+
+// ── NOCTIS TECH PRODUCTS ────────────────────────────────────
+const TECH = [
+  {
+    name:   "APEX",
+    sub:    "LIFE GAMIFICATION — iOS",
+    desc:   "Turn your life into a game. XP, daily quests, AI coach, calorie tracking & barcode scanner. Free on the App Store.",
+    badge:  "FREE",
+    link:   "https://apps.apple.com/us/app/apx-night/id6761626970",
+    image:  "apx copy.png",   // ← already using a filename — this is the right format
+    status: "live",
+  },
+  // ← copy block above to add more tech products
+];
+
+// ── 2AM CLOTHING PRODUCTS ───────────────────────────────────
+const CLOTHING = [
+  {
+    name:     "WE BACK",
+    sub:      "UNISEX — 240GSM",
+    price:    40,
+    badge:    "NEW",
+    category: "tees",
+    soldOut:  false,
+    stock:    50,
+    image:    "blabackrevive.png",             // ← filename e.g. "tee-front.jpg"
+    square:   "",
+    featured: true,
+    desc:     "Heavyweight 240gsm cotton. Skull graphic front & back. Unisex oversized fit.",
+    colors:   ["#000000", "#1a1a1a", "#cc1111", "#f0ede8"],
+    //         ^ black      charcoal   red         cream
+    // Remove the colors line entirely to hide the color picker
+  },
+  // ← copy a block above to add more products
+];
+
+// ── SHIPPING / RETURNS / FAQ ─────────────────────────────────
+const INFO = {
+  shipping: {
+    title: "SHIPPING",
+    items: [
+      ["US STANDARD",   "5–8 days — Free over $150"],
+      ["US EXPRESS",    "2–3 days — $14.99"],
+      ["INTERNATIONAL", "10–21 days — duties may apply"],
+      ["PROCESSING",    "1–3 business days before shipping"],
+    ]
+  },
+  returns: {
+    title: "RETURNS",
+    items: [
+      ["POLICY",     "14 days from delivery, unworn with tags"],
+      ["HOW TO",     "Email returns@2am.co with your order number"],
+      ["EXCHANGES",  "Same process — just tell us the new size"],
+      ["FINAL SALE", "Sale items & accessories cannot be returned"],
+    ]
+  },
+  faq: {
+    title: "FAQ",
+    items: [
+      ["SIZES",        "XS–XXL, unisex, runs slightly oversized"],
+      ["WASHING",      "Cold, inside out. Hang dry. No bleach."],
+      ["NEXT DROP",    "Follow socials — we announce 24–48hrs ahead"],
+      ["RESTOCKS",     "Rare. Newsletter is the only way to know first"],
+      ["CANCEL ORDER", "Within 2 hours only — email orders@2am.co"],
+    ]
+  },
+};
+
+// ── ABOUT NIGHT.INC ─────────────────────────────────────────
+// Edit this to change what shows on the About page
+const ABOUT = {
+  noctis: {
+    headline:  "We Build After Hours.",
+    sub:       "Night.inc is an independent technology company founded by one person.",
+    story: [
+      "Night.inc started with a simple idea: the best products get built when the world is asleep. No meetings, no distractions, no corporate approval chains. Just focused work at the hours when it actually counts.",
+      "Every product under Night.inc — from APEX to 2AM — is designed, coded, and shipped by a solo founder. Not because there's no choice, but because that constraint forces a higher standard of craft.",
+      "The mission is financial freedom through technology and design. Building tools that help people level up their lives, and clothing that reflects the mindset of someone who never stops building.",
+      "We're just getting started.",
+    ],
+    values: [
+      ["Independent",  "Self-funded, no investors, no permission needed."],
+      ["AI-Native",    "Every product built with AI at the core from day one."],
+      ["Long Game",    "We build for years, not quarters."],
+      ["Dark Luxury",  "Premium quality. Minimal noise. Maximum impact."],
+    ],
+    contact: "hello@night.inc",
+  },
+  twam: {
+    headline:  "Designed at 2AM.",
+    sub:       "Dark luxury streetwear for the ones who are still up.",
+    story: [
+      "2AM started as the clothing arm of Night.inc — a way to extend the brand's aesthetic beyond software and into something you can actually wear.",
+      "Every piece is designed in the late hours, dropped in limited quantities, and built to last. We use heavyweight blanks — 240–420gsm cotton and fleece — because cheap clothes are a waste of money and a waste of your image.",
+      "The graphics aren't just graphics. The skull, the lightning bolt, the NO SIGNAL — they're a visual language for a specific type of person. Someone building something. Someone who moves at night.",
+      "2AM doesn't do fast fashion. We don't do restocks unless we feel like it. Buy it when it drops or wait.",
+    ],
+    values: [
+      ["Heavyweight",  "240–420gsm blanks. No compromise on quality."],
+      ["Limited",      "Every drop is limited. No infinite restocks."],
+      ["Independent",  "A Night.inc brand. No outside funding."],
+      ["Real Ones",    "Built for people who are actually about it."],
+    ],
+    contact: "hello@2am.co",
+  },
+};
+
+// ── POLICIES ─────────────────────────────────────────────────
+// Edit the text below to match your actual policies
+const POLICIES = {
+  privacy: {
+    title: "PRIVACY POLICY",
+    updated: "January 2025",
+    sections: [
+      ["INFORMATION WE COLLECT",
+       "We collect information you provide directly, such as your email address when you sign up for our newsletter or place an order. We also collect standard usage data like IP address, browser type, and pages visited."],
+      ["HOW WE USE IT",
+       "We use your information to process orders, send shipping updates, and occasionally send newsletter emails if you opted in. We do not sell your data to third parties. Ever."],
+      ["COOKIES",
+       "We use minimal cookies to keep your cart working and understand basic site traffic. We don't use invasive tracking or advertising cookies."],
+      ["THIRD PARTIES",
+       "We use Square for payment processing. Square handles your payment information — we never see or store your card details. We may use standard analytics tools to understand traffic."],
+      ["YOUR RIGHTS",
+       "You can request to see, correct, or delete your data at any time. Email us at hello@night.inc and we'll sort it."],
+      ["CONTACT",
+       "Questions about privacy? Email hello@night.inc."],
+    ]
+  },
+  terms: {
+    title: "TERMS OF SERVICE",
+    updated: "January 2025",
+    sections: [
+      ["OVERVIEW",
+       "By using this site and purchasing from 2AM, you agree to these terms. If you don't agree, don't use the site."],
+      ["ORDERS",
+       "All orders are subject to availability. We reserve the right to cancel any order for any reason. If we cancel your order, you'll receive a full refund."],
+      ["PAYMENTS",
+       "Payments are processed securely through Square. All prices are in USD. We reserve the right to update pricing at any time."],
+      ["RETURNS",
+       "We accept returns within 14 days for unworn, unwashed items with original tags. Sale items are final sale. See our full returns policy for details."],
+      ["INTELLECTUAL PROPERTY",
+       "All graphics, designs, and content on this site belong to Night.inc. Don't reproduce them without permission."],
+      ["LIMITATION OF LIABILITY",
+       "We're not liable for indirect or consequential damages arising from your use of our products or site. Our liability is limited to the amount you paid for the product."],
+      ["CONTACT",
+       "Questions? Email hello@night.inc."],
+    ]
+  },
+};
+
+
+</script>
+
+<style>
+:root {
+  --red:   #e8000d;
+  --black: #080808;
+  --dark:  #111;
+  --card:  #1a1a1a;
+  --line:  #252525;
+  --dim:   #666;
+  --white: #f0ede8;
+  --top:   96px;
+  --tick:  24px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+button { background: none; border: none; color: inherit; font: inherit; cursor: pointer; }
+img, svg { display: block; }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: .04;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain .7s steps(1) infinite;
+}
+@keyframes grain { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-2%,3%)} 50%{transform:translate(3%,-2%)} 75%{transform:translate(-1%,3%)} }
+@keyframes up    { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+@keyframes float { from{opacity:0;transform:translateX(-50%) translateY(30px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+@keyframes run   { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes glow  { 0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* BRAND BAR */
+.bbar { position:fixed;top:0;left:0;right:0;height:40px;z-index:1000;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line); }
+.btab { display:flex;align-items:center;justify-content:center;gap:7px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;cursor:pointer;transition:background .25s,color .25s;user-select:none;background:var(--black);color:var(--dim); }
+.btab:first-child { border-right:1px solid var(--line); }
+.btab.on.noctis { background:var(--red);color:#fff; }
+.btab.on.twam   { background:var(--white);color:var(--black); }
+.btab-dot { width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.4; }
+.btab.on .btab-dot { opacity:1; }
+
+/* NAV */
+nav { position:fixed;top:40px;left:0;right:0;height:56px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid transparent;transition:background .3s,border-color .3s; }
+nav.stuck { backdrop-filter:blur(18px);border-bottom-color:var(--line); }
+.nv nav.stuck { background:rgba(8,8,8,.95); }
+.ta nav.stuck { background:rgba(10,10,10,.97); }
+.logo { font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:5px; }
+.logo b { color:var(--red); }
+.nav-r { display:flex;align-items:center;gap:14px; }
+.nav-links { display:none;gap:28px;list-style:none; }
+.nav-links a { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;transition:color .2s; }
+.nav-links a:hover { color:var(--white); }
+.bag { position:relative;padding:4px;cursor:pointer; }
+.bag-n { position:absolute;top:-3px;right:-5px;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:8px;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
+.burger { display:flex;flex-direction:column;gap:5px;padding:5px 3px; }
+.burger span { display:block;width:22px;height:1.5px;background:var(--white);transition:transform .3s,opacity .3s;transform-origin:center; }
+.burger.x span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+.burger.x span:nth-child(2) { opacity:0; }
+.burger.x span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+/* TICKER */
+.ticker { position:fixed;top:96px;left:0;right:0;height:var(--tick);overflow:hidden;display:flex;align-items:center;z-index:890; }
+.nv .ticker { background:var(--red); }
+.ta .ticker { background:var(--white); }
+.ticker-t { display:flex;white-space:nowrap;animation:run 28s linear infinite; }
+.nv .ticker-t span { font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;color:#fff;padding:0 24px; }
+.ta .ticker-t span { font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;color:var(--black);padding:0 24px; }
+
+/* MOBILE MENU */
+.mmenu { position:fixed;inset:0;z-index:850;display:flex;flex-direction:column;justify-content:center;padding:80px 32px 40px;transform:translateY(-100%);transition:transform .45s cubic-bezier(.77,0,.18,1);pointer-events:none; }
+.nv .mmenu { background:var(--black); }
+.ta .mmenu { background:#080808; }
+.mmenu.open { transform:translateY(0);pointer-events:all; }
+.mmenu ul { list-style:none;margin-bottom:40px; }
+.mmenu li { border-bottom:1px solid var(--line); }
+.mmenu a { display:block;font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:2px;color:var(--white);padding:12px 0; }
+.mmenu a:active { color:var(--red); }
+.mmenu-socials { display:flex;gap:20px; }
+.mmenu-socials a { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--dim); }
+
+/* SHARED */
+.pt { padding-top:calc(var(--top) + var(--tick)); }
+.strip { border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0;overflow:hidden;background:var(--dark); }
+.strip-t { display:flex;white-space:nowrap;animation:run 20s linear infinite; }
+.strip-t.rev { animation-direction:reverse; }
+.strip-t span { font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:transparent;-webkit-text-stroke:1px var(--line);padding:0 24px; }
+.strip-t .r { color:var(--red);-webkit-text-stroke:0; }
+.lbl    { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:10px; }
+.htitle { font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,12vw,72px);letter-spacing:1px;line-height:1; }
+.btn-red   { display:block;flex:1;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;padding:15px 20px;text-align:center;transition:background .2s; }
+.btn-red:hover { background:#b5000a; }
+.btn-ghost { display:block;flex:1;border:1px solid var(--line);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:15px 20px;text-align:center;transition:all .2s; }
+.btn-ghost:hover { border-color:var(--white);color:var(--white); }
+.rv { opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s; }
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+.rv.in { opacity:1;transform:none; }
+
+/* FOOTER */
+footer { background:var(--dark);border-top:1px solid var(--line);padding:52px 24px 80px; }
+footer .foot-logo { font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:5px;margin-bottom:8px; }
+footer .foot-logo b { color:var(--red); }
+footer .foot-tag { font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--dim);margin-bottom:36px;line-height:1.5; }
+footer .fcols { display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px; }
+footer h4 { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--white);text-transform:uppercase;margin-bottom:14px; }
+footer ul { list-style:none; }
+footer li { margin-bottom:10px; }
+footer a { font-size:13px;color:var(--dim);transition:color .2s; }
+footer a:hover { color:var(--white); }
+footer .copy { padding-top:24px;border-top:1px solid var(--line);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:#222; }
+
+/* NOCTIS HERO */
+.n-hero { min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px; }
+.n-grid { position:absolute;inset:0;opacity:.18;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,black,transparent); }
+.n-glow { position:absolute;width:500px;height:500px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(232,0,13,.13) 0%,transparent 70%);top:-100px;left:50%;transform:translate(-50%,-50%);animation:glow 4s ease-in-out infinite; }
+.n-hero-text { position:relative;z-index:2;padding:0 24px; }
+.n-eyebrow { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--red);margin-bottom:14px;opacity:0;animation:up .7s .3s forwards; }
+.n-hero-h { font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,20vw,130px);line-height:.88;letter-spacing:-1px;opacity:0;animation:up .7s .5s forwards; }
+.n-hero-h .out { -webkit-text-stroke:1px var(--white);color:transparent;display:block; }
+.n-sub { font-family:'Playfair Display',serif;font-style:italic;font-size:14px;line-height:1.65;color:var(--dim);margin-top:18px;max-width:280px;opacity:0;animation:up .7s .7s forwards; }
+.n-btns { display:flex;gap:10px;margin-top:28px;opacity:0;animation:up .7s .85s forwards; }
+
+/* TECH CARDS */
+.tc { background:var(--dark);border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:2px; }
+.tc::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .5s; }
+.tc:hover::before { transform:scaleX(1); }
+.tc-body { padding:28px 24px 20px; }
+.tc-top  { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px; }
+.tc-icon { width:50px;height:50px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden; }
+.tc-icon img { width:100%;height:100%;object-fit:cover; }
+.tc-icon-txt { font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--red); }
+.tc-badge { font-family:'Space Mono',monospace;font-size:8px;letter-spacing:3px;padding:4px 10px;border:1px solid; }
+.tc-badge.FREE { color:#0f0;border-color:#0a3a0a;background:#020e02; }
+.tc-badge.BETA { color:#88f;border-color:#2a2a4a;background:#0a0a18; }
+.tc-badge.SOON { color:var(--red);border-color:#3a0a0a;background:#0e0303; }
+.tc-badge.NEW  { background:var(--red);color:#fff;border-color:var(--red); }
+.tc-name { font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;line-height:1;margin-bottom:4px; }
+.tc-sub  { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:14px; }
+.tc-desc { font-size:13px;color:var(--dim);line-height:1.75; }
+.tc-terminal { font-family:'Space Mono',monospace;font-size:10px;color:#0f0;line-height:1.9;background:#020e02;border:1px solid #0a2a0a;padding:14px 16px;margin-top:16px; }
+.tc-terminal .p { color:var(--red); }
+.tc-foot { padding:16px 24px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between; }
+.tc-price { font-family:'Space Mono',monospace;font-size:13px;color:var(--dim); }
+.tc-price b { color:var(--white); }
+.tc-cta { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;font-weight:700;padding:11px 22px;background:var(--red);color:#fff;transition:background .2s; }
+.tc-cta:hover { background:#b5000a; }
+.tc-cta.ghost { background:none;border:1px solid var(--line);color:var(--dim); }
+.tc-cta.ghost:hover { border-color:var(--red);color:var(--red); }
+
+/* MISSION */
+.missions { display:flex;flex-direction:column;gap:2px;margin-top:28px; }
+.mission  { background:var(--dark);border:1px solid var(--line);padding:28px 24px;position:relative; }
+.mission::before { content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--red); }
+.mission-n { font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--line);line-height:1;margin-bottom:-12px; }
+.mission-t { font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:10px; }
+.mission-p { font-size:13px;color:var(--dim);line-height:1.8; }
+
+/* MANIFESTO */
+.manifesto   { padding:64px 24px;background:var(--dark);border-top:1px solid var(--line);border-bottom:1px solid var(--line); }
+.manifesto q { font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(20px,5.5vw,34px);line-height:1.35;color:#555;display:block;margin-bottom:40px; }
+.manifesto q em { color:var(--white); }
+.stats    { display:grid;grid-template-columns:1fr 1fr; }
+.stat     { padding:24px 20px;border-top:1px solid var(--line); }
+.stat:nth-child(odd) { border-right:1px solid var(--line); }
+.stat-n   { font-family:'Bebas Neue',sans-serif;font-size:50px;color:var(--red);line-height:1; }
+.stat-l   { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);margin-top:4px; }
+
+/* 2AM HERO */
+.t-hero { min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56px; }
+.t-hero-img { position:absolute;top:calc(var(--top) + var(--tick) + 10px);left:50%;transform:translateX(-50%);width:min(300px,82vw);opacity:0;animation:float 1.1s .2s cubic-bezier(.22,1,.36,1) forwards; }
+.t-hero-img img, .t-hero-img svg { width:100%;height:auto;object-fit:contain; }
+.t-hero-text { position:relative;z-index:2;padding:0 24px; }
+.t-eyebrow { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--red);margin-bottom:14px;opacity:0;animation:up .7s .5s forwards; }
+.t-hero-h  { font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,22vw,130px);line-height:.88;letter-spacing:-1px;opacity:0;animation:up .7s .65s forwards; }
+.t-hero-h .out { -webkit-text-stroke:1px var(--white);color:transparent;display:block; }
+.t-sub  { font-family:'Playfair Display',serif;font-style:italic;font-size:14px;line-height:1.65;color:var(--dim);margin-top:16px;max-width:260px;opacity:0;animation:up .7s .8s forwards; }
+.t-btns { display:flex;gap:10px;margin-top:28px;opacity:0;animation:up .7s .95s forwards; }
+
+/* FEATURED CARD */
+.feat    { background:var(--card);position:relative;overflow:hidden; }
+.feat-in { padding:40px 24px 28px;display:flex;flex-direction:column;min-height:80vw;justify-content:space-between; }
+.feat-badge { display:inline-block;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;font-weight:700;padding:5px 12px;margin-bottom:16px;align-self:flex-start; }
+.feat-img { width:min(260px,70vw);margin:0 auto; }
+.feat-img img, .feat-img svg { width:100%;height:auto;object-fit:contain; }
+.feat-bot   { display:flex;align-items:flex-end;justify-content:space-between;margin-top:24px; }
+.feat-name  { font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;line-height:1; }
+.feat-sub   { font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:4px; }
+.feat-price { font-family:'Space Mono',monospace;font-size:16px; }
+.feat-btn { width:100%;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;font-weight:700;padding:17px;text-align:center;display:block;transition:background .2s; }
+.feat-btn:hover,.feat-btn:active { background:#b5000a; }
+.feat-btn.sold { background:var(--dim);color:#333;pointer-events:none; }
+
+/* FILTER TABS */
+.filters { display:flex;gap:6px;overflow-x:auto;padding:18px 24px;scrollbar-width:none; }
+.filters::-webkit-scrollbar { display:none; }
+.ftab { flex-shrink:0;border:1px solid var(--line);color:var(--dim);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;white-space:nowrap;transition:all .2s; }
+.ftab.on { background:var(--white);color:var(--black);border-color:var(--white); }
+
+/* PRODUCT GRID */
+.pgrid { display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:0 2px; }
+.pcard { background:var(--card);position:relative; }
+.pcard-img { padding-top:130%;position:relative;overflow:hidden; }
+.pcard.wide .pcard-img { padding-top:70%; }
+.pcard-img-in { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;transition:transform .5s; }
+.pcard-img-in img { width:100%;height:100%;object-fit:contain; }
+.pcard:active .pcard-img-in { transform:scale(1.04); }
+.pbadge { position:absolute;top:10px;left:10px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;padding:4px 8px;z-index:2; }
+.pbadge.NEW     { background:var(--red);color:#fff; }
+.pbadge.LIMITED { background:#6a0009;color:#fff; }
+.pbadge.SOLD\ OUT { background:var(--dim);color:#fff; }
+.pcard-info  { padding:12px 14px 14px;border-top:1px solid var(--line); }
+.pcard-name  { font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;cursor:pointer; }
+.pcard-sub   { font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:1px;margin-top:2px; }
+.pcard-stock { font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;margin-top:3px; }
+.pcard-stock.low { color:#e8a000; }
+.pcard-stock.out { color:var(--red); }
+.pcard-row   { display:flex;align-items:center;justify-content:space-between;margin-top:8px; }
+.pcard-price { font-family:'Space Mono',monospace;font-size:13px; }
+.pcard-add   { width:36px;height:36px;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;transition:background .15s;border-radius:2px; }
+.pcard-add:hover,.pcard-add:active { background:var(--red);color:#fff; }
+.pcard-add.sold { background:var(--line);color:var(--dim);pointer-events:none;font-size:14px; }
+.pcard-add.sq   { background:var(--red);color:#fff;font-size:9px;font-family:'Space Mono',monospace;width:auto;padding:0 10px;letter-spacing:1px;font-weight:700; }
+
+/* ── COLOR SWATCHES on product cards ── */
+.pcard-colors { display:flex;gap:5px;margin-top:8px;flex-wrap:wrap; }
+.pcard-swatch {
+  width:16px;height:16px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;
+  transition:transform .15s,border-color .15s;
+  flex-shrink:0;
+}
+.pcard-swatch:hover { transform:scale(1.2); }
+.pcard-swatch.sel   { border-color:var(--white);transform:scale(1.15); }
+/* white swatch needs outline so it's visible */
+.pcard-swatch[style*="#f0ede8"],.pcard-swatch[style*="#ffffff"],.pcard-swatch[style*="#fff"] {
+  box-shadow:0 0 0 1px var(--line);
+}
+
+/* LOOKBOOK */
+.lb-wrap { overflow:hidden; }
+.lb-scroll { display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px; }
+.lb-scroll::-webkit-scrollbar { display:none; }
+.lb-card { flex-shrink:0;width:calc(100vw - 48px);scroll-snap-align:start;background:var(--card); }
+.lb-img  { aspect-ratio:.8;display:flex;align-items:center;justify-content:center;overflow:hidden; }
+.lb-img img { width:100%;height:100%;object-fit:cover; }
+.lb-info { padding:18px 20px 22px; }
+.lb-cat  { font-family:'Space Mono',monospace;font-size:8px;letter-spacing:4px;color:var(--red);margin-bottom:5px; }
+.lb-name { font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px; }
+.lb-price{ font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);margin-top:5px; }
+.lb-cta  { display:inline-block;margin-top:12px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--red);border-bottom:1px solid var(--red);cursor:pointer;padding-bottom:2px; }
+.lb-dots { display:flex;justify-content:center;gap:8px;padding:14px 0; }
+.lb-dot  { width:5px;height:5px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s; }
+.lb-dot.on { background:var(--red); }
+
+/* NEWSLETTER */
+.nl { padding:52px 24px;background:var(--red);position:relative;overflow:hidden; }
+.nl::before { content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07); }
+.nl-lbl   { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:rgba(255,255,255,.6);margin-bottom:8px; }
+.nl-title { font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,10vw,56px);letter-spacing:2px;color:#fff;line-height:1;margin-bottom:20px; }
+.nl-form  { display:flex;max-width:460px; }
+.nl-input { flex:1;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);border-right:none;color:#fff;font-family:'Space Mono',monospace;font-size:12px;padding:14px 16px;outline:none; }
+.nl-input::placeholder { color:rgba(255,255,255,.4); }
+.nl-btn   { background:#fff;color:var(--red);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;font-weight:700;padding:14px 18px;border:1px solid #fff;transition:all .2s; }
+.nl-btn:hover { background:var(--black);color:#fff;border-color:var(--black); }
+.nl-note  { font-size:11px;color:rgba(255,255,255,.5);margin-top:10px; }
+
+/* ABOUT */
+.about   { padding:64px 24px;background:var(--black); }
+.about q { font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(22px,6vw,38px);line-height:1.3;color:#555;display:block;margin-bottom:36px; }
+.about q em { color:var(--white); }
+.about-ps { display:flex;flex-direction:column;gap:20px; }
+.about-p  { font-size:14px;color:var(--dim);line-height:1.9;border-left:2px solid var(--line);padding-left:16px; }
+.about-p em { color:var(--white);font-style:normal; }
+
+/* SOCIAL BAR */
+.sbar  { padding:32px 24px;background:var(--dark);border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:18px; }
+.sbar-l{ font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--dim); }
+.slinks{ display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
+.slink { display:flex;align-items:center;gap:7px;border:1px solid var(--line);padding:10px 16px;color:var(--dim);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;transition:all .2s; }
+.slink:hover { border-color:var(--red);color:var(--white); }
+
+
+/* ── MODAL IMAGE GALLERY ───────────────────── */
+.modal-gallery {
+  position: relative;
+  width: 100%; aspect-ratio: 1;
+  background: var(--card);
+  overflow: hidden;
+}
+/* horizontal scroll strip of images */
+.mg-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mg-track::-webkit-scrollbar { display: none; }
+.mg-slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.mg-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* close button */
+.mg-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 34px; height: 34px;
+  background: rgba(0,0,0,.6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; z-index: 2;
+}
+/* prev / next arrows (hidden on mobile, shown on desktop) */
+.mg-arrow {
+  display: none;
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px;
+  background: rgba(0,0,0,.55);
+  border-radius: 50%;
+  align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer; z-index: 2;
+  transition: background .2s;
+}
+.mg-arrow:hover { background: rgba(0,0,0,.85); }
+.mg-arrow.prev { left: 12px; }
+.mg-arrow.next { right: 12px; }
+/* dot indicators */
+.mg-dots {
+  position: absolute;
+  bottom: 10px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 6px;
+  z-index: 2;
+}
+.mg-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.mg-dot.on { background: #fff; transform: scale(1.3); }
+/* thumbnail strip below main image */
+.mg-thumbs {
+  display: flex;
+  gap: 6px;
+  padding: 8px 0 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.mg-thumbs::-webkit-scrollbar { display: none; }
+.mg-thumb {
+  flex-shrink: 0;
+  width: 52px; height: 52px;
+  background: var(--card);
+  border: 2px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.mg-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.mg-thumb.on  { border-color: var(--white); }
+@media (min-width: 768px) {
+  .mg-arrow { display: flex; }
+  /* on desktop the gallery is the left column, full height */
+  .modal-gallery { aspect-ratio: auto; min-height: 460px; }
+}
+
+
+/* ── ABOUT & POLICY PAGES ──────────────────── */
+.page-overlay {
+  position: fixed; inset: 0; z-index: 3500;
+  background: var(--black);
+  transform: translateY(100%);
+  transition: transform .5s cubic-bezier(.22,1,.36,1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.page-overlay.open { transform: translateY(0); }
+.page-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--black);
+  border-bottom: 1px solid var(--line);
+  padding: 0 24px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.page-nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px; }
+.page-nav-logo b { color: var(--red); }
+.page-back {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); cursor: pointer; transition: color .2s;
+}
+.page-back:hover { color: var(--white); }
+.page-hero {
+  padding: 64px 24px 48px;
+  border-bottom: 1px solid var(--line);
+}
+.page-hero-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 5px;
+  color: var(--red); margin-bottom: 14px;
+}
+.page-hero-h {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px,14vw,100px);
+  line-height: .88; letter-spacing: -1px; margin-bottom: 20px;
+}
+.page-hero-h .out { -webkit-text-stroke: 1px var(--white); color: transparent; display: block; }
+.page-hero-sub {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 15px; color: var(--dim); line-height: 1.65; max-width: 480px;
+}
+/* about story paragraphs */
+.about-story {
+  padding: 48px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.about-story p {
+  font-size: 15px; color: var(--dim); line-height: 1.9;
+  border-left: 2px solid var(--line); padding-left: 18px;
+}
+/* values grid */
+.about-values {
+  padding: 48px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.about-values-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin-top: 24px;
+}
+.about-value {
+  background: var(--dark); border: 1px solid var(--line);
+  padding: 24px 20px; position: relative;
+}
+.about-value::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 2px; height: 100%; background: var(--red);
+}
+.about-value-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px; margin-bottom: 8px;
+}
+.about-value-text { font-size: 12px; color: var(--dim); line-height: 1.7; }
+/* contact strip */
+.about-contact {
+  padding: 48px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.about-contact-lbl {
+  font-family: 'Space Mono', monospace; font-size: 9px;
+  letter-spacing: 5px; color: var(--dim);
+}
+.about-contact-email {
+  font-family: 'Bebas Neue', sans-serif; font-size: 24px;
+  letter-spacing: 2px; color: var(--red);
+}
+/* policy sections */
+.policy-sections { padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
+.policy-section {}
+.policy-section h3 {
+  font-family: 'Space Mono', monospace; font-size: 9px;
+  letter-spacing: 4px; color: var(--red);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.policy-section p {
+  font-size: 13px; color: var(--dim); line-height: 1.85;
+}
+.policy-updated {
+  font-family: 'Space Mono', monospace; font-size: 9px;
+  letter-spacing: 3px; color: #333; padding: 0 24px 48px;
+}
+@media (min-width: 768px) {
+  .page-nav   { padding: 0 48px; height: 64px; }
+  .page-hero  { padding: 80px 48px 64px; }
+  .about-story { padding: 64px 48px; }
+  .about-values { padding: 64px 48px; }
+  .about-values-grid { grid-template-columns: repeat(4, 1fr); }
+  .about-contact { padding: 64px 48px; }
+  .policy-sections { padding: 64px 48px; }
+  .policy-updated { padding: 0 48px 64px; }
+}
+
+/* ── PRODUCT MODAL ── */
+.modal-bg { position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:3000;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:flex-end; }
+.modal-bg.on { opacity:1;pointer-events:all; }
+.modal-sheet { background:var(--dark);width:100%;max-height:93svh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform .42s cubic-bezier(.22,1,.36,1); }
+.modal-bg.on .modal-sheet { transform:translateY(0); }
+.modal-handle { width:36px;height:4px;background:var(--line);border-radius:99px;margin:14px auto 0; }
+.modal-img  { width:100%;aspect-ratio:1;background:var(--card);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative; }
+.modal-img img { width:100%;height:100%;object-fit:contain; }
+.modal-close { position:absolute;top:14px;right:14px;width:34px;height:34px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;z-index:1; }
+.modal-body { padding:22px 24px 36px; }
+.modal-name  { font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;line-height:1;margin-bottom:4px; }
+.modal-sub   { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:14px; }
+.modal-price { font-family:'Space Mono',monospace;font-size:20px;margin-bottom:18px; }
+.modal-desc  { font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:22px; }
+
+/* ── COLOR PICKER in modal ── */
+.modal-color-lbl { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:10px; }
+.modal-colors { display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center; }
+.modal-swatch {
+  width:26px;height:26px;border-radius:50%;cursor:pointer;
+  border:3px solid transparent;
+  transition:transform .15s,border-color .15s;
+  flex-shrink:0;position:relative;
+}
+.modal-swatch:hover { transform:scale(1.15); }
+.modal-swatch.sel   { border-color:var(--white); }
+.modal-swatch.sel::after {
+  content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#fff;text-shadow:0 0 3px rgba(0,0,0,.8);
+}
+/* light swatches need a visible outline */
+.modal-swatch.light { box-shadow:0 0 0 1px var(--line); }
+.modal-swatch.light.sel::after { color:var(--black);text-shadow:none; }
+.modal-color-name { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);margin-left:4px; }
+
+.modal-sz-lbl { font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:10px; }
+.modal-sizes { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px; }
+.sz { border:1px solid var(--line);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;padding:10px 16px;cursor:pointer;transition:all .15s; }
+.sz:hover { border-color:var(--white);color:var(--white); }
+.sz.on { background:var(--white);color:var(--black);border-color:var(--white); }
+.modal-atc { width:100%;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;font-weight:700;padding:18px;margin-bottom:10px;transition:background .2s; }
+.modal-atc:hover { background:#b5000a; }
+.modal-atc.off { background:var(--dim);color:#333;pointer-events:none; }
+.modal-sq { width:100%;background:none;border:1px solid var(--line);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;padding:15px;display:block;text-align:center;transition:all .2s; }
+.modal-sq:hover { border-color:var(--white);color:var(--white); }
+
+/* INFO MODALS */
+.info-bg { position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:4000;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:flex-end; }
+.info-bg.on { opacity:1;pointer-events:all; }
+.info-sheet { background:var(--dark);width:100%;max-height:80svh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform .42s cubic-bezier(.22,1,.36,1); }
+.info-bg.on .info-sheet { transform:translateY(0); }
+.info-head  { padding:16px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--dark); }
+.info-title { font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px; }
+.info-x     { font-size:20px;color:var(--dim);padding:4px;cursor:pointer; }
+.info-body  { padding:24px; }
+.info-row   { margin-bottom:24px; }
+.info-row h3{ font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--red);margin-bottom:8px; }
+.info-row p { font-size:13px;color:var(--dim);line-height:1.8; }
+
+/* SIZE GUIDE */
+.sg-bg { position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:4000;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;justify-content:center; }
+.sg-bg.on { opacity:1;pointer-events:all; }
+.sg-box { background:var(--dark);width:min(480px,92vw);max-height:80svh;overflow-y:auto;border:1px solid var(--line); }
+.sg-head { padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between; }
+.sg-title{ font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px; }
+.sg-x    { font-size:20px;color:var(--dim);cursor:pointer; }
+.sg-body { padding:24px; }
+table    { width:100%;border-collapse:collapse; }
+th, td   { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;padding:10px 8px;text-align:left;border-bottom:1px solid var(--line); }
+th { color:var(--dim); }
+.sg-note { font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:14px;line-height:1.7; }
+
+/* CART */
+.cart-overlay { position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1100;opacity:0;pointer-events:none;transition:opacity .3s; }
+.cart-overlay.on { opacity:1;pointer-events:all; }
+.cart { position:fixed;bottom:0;left:0;right:0;z-index:1200;background:var(--dark);border-top:1px solid var(--line);border-radius:20px 20px 0 0;display:flex;flex-direction:column;max-height:86svh;transform:translateY(100%);transition:transform .4s cubic-bezier(.22,1,.36,1); }
+.cart.on { transform:translateY(0); }
+.cart-handle { width:36px;height:4px;background:var(--line);border-radius:99px;margin:14px auto 0;flex-shrink:0; }
+.cart-head { display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--line);flex-shrink:0; }
+.cart-ttl { font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px; }
+.cart-x { font-size:20px;color:var(--dim);padding:4px; }
+.cart-body { flex:1;overflow-y:auto;padding:16px 24px; }
+.cart-empty { text-align:center;padding:56px 0;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--dim); }
+.ci { display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line); }
+.ci-thumb { width:58px;height:70px;background:var(--card);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden; }
+.ci-thumb img { width:100%;height:100%;object-fit:contain; }
+.ci-det { flex:1; }
+.ci-name  { font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px; }
+.ci-meta  { font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);margin-top:3px; }
+.ci-price { font-family:'Space Mono',monospace;font-size:13px;margin-top:8px; }
+.ci-rm { font-size:16px;color:var(--dim);padding:4px;cursor:pointer; }
+.cart-foot { padding:16px 24px;border-top:1px solid var(--line);flex-shrink:0;padding-bottom:calc(16px + env(safe-area-inset-bottom)); }
+.cart-total-row { display:flex;justify-content:space-between;align-items:center;margin-bottom:14px; }
+.cart-total-lbl { font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--dim); }
+.cart-total-val { font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px; }
+.checkout-btn { width:100%;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;font-weight:700;text-transform:uppercase;padding:18px;transition:background .2s; }
+.checkout-btn:hover { background:#b5000a; }
+
+/* TOAST */
+.toast { position:fixed;top:calc(var(--top) + var(--tick) + 12px);left:50%;transform:translateX(-50%) translateY(-14px);background:var(--card);border:1px solid var(--line);padding:11px 20px;z-index:5000;opacity:0;transition:opacity .3s,transform .3s;white-space:nowrap;pointer-events:none; }
+.toast.on { opacity:1;transform:translateX(-50%) translateY(0); }
+.toast-lbl { font-family:'Space Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--red); }
+.toast-txt { font-size:12px;color:var(--white);margin-top:2px; }
+
+/* RESPONSIVE */
+@media (min-width:768px) {
+  :root { --top:104px; }
+  nav { height:64px;padding:0 48px; }
+  .logo { font-size:28px; }
+  .nav-links { display:flex !important; }
+  .burger,.mmenu { display:none !important; }
+  .n-hero-text,.t-hero-text { padding:0 48px; }
+  .manifesto { padding:80px 48px; }
+  .about     { padding:100px 48px; }
+  .nl        { padding:80px 48px; }
+  .sbar      { flex-direction:row;justify-content:space-between;padding:28px 48px; }
+  footer     { padding:80px 48px 60px; }
+  footer .fcols { grid-template-columns:repeat(3,1fr); }
+  .t-hero-img { width:min(460px,54vw); }
+  .n-hero-h   { font-size:clamp(100px,14vw,160px); }
+  .t-hero-h   { font-size:clamp(100px,16vw,160px); }
+  .stats { grid-template-columns:repeat(4,1fr); }
+  .stat:nth-child(2),.stat:nth-child(3) { border-right:1px solid var(--line); }
+  .missions { display:grid;grid-template-columns:1fr 1fr; }
+  .tc-grid  { display:grid;grid-template-columns:1fr 1fr;gap:2px; }
+  .tc { margin-bottom:0; }
+  .tc:last-child:nth-child(odd) { grid-column:1/-1; }
+  .pgrid { grid-template-columns:repeat(3,1fr); }
+  .filters { padding-left:48px;padding-right:48px; }
+  .feat-in  { min-height:500px; }
+  .feat-img { width:min(300px,44vw); }
+  .lb-card  { width:calc(50vw - 24px); }
+  .cart { top:0;bottom:0;right:0;left:auto;width:400px;border-radius:0;border-top:none;border-left:1px solid var(--line);max-height:100%;transform:translateX(100%); }
+  .cart.on { transform:translateX(0); }
+  .cart-handle { display:none; }
+  .modal-bg { align-items:center;justify-content:center; }
+  .modal-sheet { width:min(620px,90vw);max-height:88svh;border-radius:4px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transform:scale(.95); }
+  .modal-bg.on .modal-sheet { transform:scale(1); }
+  .modal-handle { display:none; }
+  .modal-img { aspect-ratio:auto;min-height:460px; }
+  .modal-body { overflow-y:auto; }
+}
+</style>
+
+<!-- BRAND SWITCHER -->
+<div class="bbar">
+  <div class="btab noctis on" id="btn-n" onclick="go('noctis')"><div class="btab-dot"></div>NOCTIS</div>
+  <div class="btab twam"      id="btn-t" onclick="go('2am')">2AM<div class="btab-dot"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo" id="logo">NOCT<b>IS</b></div>
+  <ul class="nav-links" id="nav-links" style="display:none"></ul>
+  <div class="nav-r">
+    <div class="bag" onclick="openCart()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <div class="bag-n" id="bag-n">0</div>
+    </div>
+    <button class="burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="ticker"><div class="ticker-t" id="ticker"></div></div>
+
+<!-- MOBILE MENU -->
+<div class="mmenu" id="mmenu">
+  <ul id="mmenu-links"></ul>
+  <div class="mmenu-socials">
+    <a id="ms-ig">IG</a><a id="ms-tt">TT</a><a id="ms-x">X</a>
+  </div>
+</div>
+
+<!-- NOCTIS PAGE -->
+<div id="pg-noctis">
+  <section class="n-hero pt">
+    <div class="n-grid"></div>
+    <div class="n-glow"></div>
+    <div class="n-hero-text">
+      <div class="n-eyebrow">⚡ TECHNOLOGY — NIGHT.INC</div>
+      <div class="n-hero-h"><span>BUILT</span><span class="out">DIFFERENT</span></div>
+      <div class="n-sub">Technology built after hours. AI-powered tools for the ones who never stop.</div>
+      <div class="n-btns">
+        <a href="#n-products" class="btn-red">Our Products</a>
+        <button class="btn-ghost" onclick="go('2am')">2AM Clothing →</button>
+      </div>
+    </div>
+  </section>
+  <div class="strip"><div class="strip-t" id="ns1"></div></div>
+  <section style="padding:64px 24px" id="n-products">
+    <div class="lbl">Night.inc</div>
+    <div class="htitle" style="margin-bottom:28px">PRODUCTS</div>
+    <div class="tc-grid" id="tc-grid"></div>
+  </section>
+  <section style="padding:0 24px 64px" id="n-mission">
+    <div class="lbl">Night.inc</div>
+    <div class="htitle" style="margin-bottom:28px">THE MISSION</div>
+    <div class="missions" id="missions"></div>
+  </section>
+  <div class="manifesto">
+    <q class="rv"><em>We don't wait for technology to be made. We build it ourselves, after hours, in the dark.</em></q>
+    <div class="stats">
+      <div class="stat rv d1"><div class="stat-n">AI</div><div class="stat-l">POWERED CORE</div></div>
+      <div class="stat rv d2"><div class="stat-n">iOS</div><div class="stat-l">FIRST PLATFORM</div></div>
+      <div class="stat rv d3"><div class="stat-n">0</div><div class="stat-l">RULES FOLLOWED</div></div>
+      <div class="stat rv d4"><div class="stat-n">∞</div><div class="stat-l">UPSIDE</div></div>
+    </div>
+  </div>
+  <div class="strip"><div class="strip-t rev" id="ns2"></div></div>
+  <footer>
+    <div class="foot-logo">NOCT<b>IS</b></div>
+    <div class="foot-tag">"Technology built after hours. By Night.inc."</div>
+    <div class="fcols">
+      <div>
+        <h4>Products</h4>
+        <ul>
+          <li><a href="https://apps.apple.com/us/app/apx-night/id6761626970" target="_blank">APEX — App Store</a></li>
+          <li><a href="#" onclick="go('2am');return false">2AM Clothing →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#n-mission">Mission</a></li>
+          <li><a href="#n-products">Products</a></li>
+          <li><a href="mailto:hello@night.inc">Contact</a></li>
+          <li><a href="#" onclick="openPage('pg-about','noctis');return false">About</a></li>
+          <li><a href="#" onclick="openPage('pg-policy');return false">Privacy & Terms</a></li>
+        </ul>
+      </div>
+      <div style="grid-column:1/-1">
+        <h4>Follow</h4>
+        <ul style="display:flex;gap:20px;flex-wrap:wrap">
+          <li><a id="nf-ig">Instagram</a></li>
+          <li><a id="nf-tt">TikTok</a></li>
+          <li><a id="nf-x">X / Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">© 2025 NOCTIS — NIGHT.INC. ALL RIGHTS RESERVED.</div>
+  </footer>
+</div>
+
+<!-- 2AM PAGE -->
+<div id="pg-2am" style="display:none">
+  <section class="t-hero pt">
+    <div class="t-hero-img" id="t-hero-img"></div>
+    <div class="t-hero-text">
+      <div class="t-eyebrow">⚡ SS25 COLLECTION — LIVE NOW</div>
+      <div class="t-hero-h"><span>NO</span><span class="out">SIGNAL</span></div>
+      <div class="t-sub">Dark luxury streetwear. Designed at 2AM. Worn everywhere else.</div>
+      <div class="t-btns">
+        <a href="#shop" class="btn-red">Shop Now</a>
+        <a href="#about-2am" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+  </section>
+  <div class="strip"><div class="strip-t" id="ts1"></div></div>
+  <div id="featured"></div>
+  <section style="padding:48px 0 0" id="shop">
+    <div style="padding:0 24px 4px" class="rv">
+      <div class="lbl">SS25 Collection</div>
+      <div class="htitle">SHOP ALL</div>
+    </div>
+    <div class="filters rv d1">
+      <button class="ftab on" onclick="filter(this,'all')">All</button>
+      <button class="ftab"    onclick="filter(this,'tees')">Tees</button>
+      <button class="ftab"    onclick="filter(this,'hoodies')">Hoodies</button>
+      <button class="ftab"    onclick="filter(this,'accessories')">Accessories</button>
+    </div>
+    <div class="pgrid rv d2" id="pgrid"></div>
+  </section>
+  <section style="padding:64px 0 0">
+    <div style="padding:0 24px 20px" class="rv">
+      <div class="lbl">SS25</div>
+      <div class="htitle">LOOKBOOK</div>
+    </div>
+    <div class="lb-wrap"><div class="lb-scroll" id="lb"></div></div>
+    <div class="lb-dots" id="lb-dots"></div>
+  </section>
+  <div class="nl rv">
+    <div class="nl-lbl">STAY IN THE DARK</div>
+    <div class="nl-title">GET EARLY ACCESS</div>
+    <form class="nl-form" onsubmit="nlSubmit(event)">
+      <input class="nl-input" type="email" placeholder="your@email.com" id="nl-email">
+      <button class="nl-btn" type="submit">JOIN →</button>
+    </form>
+    <div class="nl-note">No spam. Only drops, restocks, and new releases.</div>
+  </div>
+  <section class="about" id="about-2am">
+    <div class="lbl">Our Story</div>
+    <div class="htitle" style="margin-bottom:28px">ABOUT 2AM</div>
+    <q class="rv"><em>Every piece was designed at 2 in the morning. That's not a gimmick — it's just when the best work gets done.</em></q>
+    <div class="about-ps rv d1">
+      <div class="about-p">2AM is the clothing division of <em>Night.inc</em> — built for the ones who are still up when everyone else is asleep. Dark luxury streetwear with real weight.</div>
+      <div class="about-p">Every piece is dropped in limited quantities. We use heavyweight blanks — <em>240–420gsm cotton and fleece</em> — because we're not interested in anything that doesn't last.</div>
+      <div class="about-p">The skull, the lightning bolt, the <em>NO SIGNAL</em> — these aren't just graphics. They're a mindset. You're either building your own future or watching someone else build theirs.</div>
+    </div>
+  </section>
+  <div class="manifesto">
+    <q class="rv"><em>Designed at 2AM. Worn in the dark. Built for those who operate outside the hours.</em></q>
+    <div class="stats">
+      <div class="stat rv d1"><div class="stat-n">240</div><div class="stat-l">GSM MINIMUM</div></div>
+      <div class="stat rv d2"><div class="stat-n">LTD</div><div class="stat-l">EVERY DROP</div></div>
+      <div class="stat rv d3"><div class="stat-n">SS25</div><div class="stat-l">CURRENT SEASON</div></div>
+      <div class="stat rv d4"><div class="stat-n">0%</div><div class="stat-l">COMPROMISE</div></div>
+    </div>
+  </div>
+  <div class="strip"><div class="strip-t rev" id="ts2"></div></div>
+  <div class="sbar">
+    <div class="sbar-l">FOLLOW 2AM</div>
+    <div class="slinks">
+      <a class="slink" id="sl-ig">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+        INSTAGRAM
+      </a>
+      <a class="slink" id="sl-tt">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.77 0 2.89 2.89 0 015.06-1.9V9.01a6.34 6.34 0 104.78 8.22V6.76a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+        TIKTOK
+      </a>
+      <a class="slink" id="sl-x">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X / TWITTER
+      </a>
+    </div>
+  </div>
+  <footer>
+    <div class="foot-logo" style="letter-spacing:8px">2AM</div>
+    <div class="foot-tag">"Designed after hours. Worn in the dark. A Night.inc brand."</div>
+    <div class="fcols">
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">New Arrivals</a></li>
+          <li><a href="#" onclick="filter(null,'tees');return false">Tees</a></li>
+          <li><a href="#" onclick="filter(null,'hoodies');return false">Hoodies</a></li>
+          <li><a href="#" onclick="filter(null,'accessories');return false">Accessories</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#" onclick="openSG();return false">Sizing Guide</a></li>
+          <li><a href="#" onclick="openInfo('shipping');return false">Shipping</a></li>
+          <li><a href="#" onclick="openInfo('returns');return false">Returns</a></li>
+          <li><a href="#" onclick="openInfo('faq');return false">FAQ</a></li>
+          <li><a href="#" onclick="openPage('pg-about','twam');return false">About 2AM</a></li>
+          <li><a href="#" onclick="openPage('pg-policy');return false">Privacy & Terms</a></li>
+        </ul>
+      </div>
+      <div style="grid-column:1/-1">
+        <h4>Follow 2AM</h4>
+        <ul style="display:flex;gap:20px;flex-wrap:wrap">
+          <li><a id="tf-ig">Instagram</a></li>
+          <li><a id="tf-tt">TikTok</a></li>
+          <li><a id="tf-x">X / Twitter</a></li>
+          <li><a href="#" onclick="go('noctis');return false" style="color:var(--red)">NOCTIS Tech →</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">© 2025 2AM — A NOCTIS BRAND — NIGHT.INC. ALL RIGHTS RESERVED.</div>
+  </footer>
+</div>
+
+
+<!-- ════ ABOUT PAGE (shared) ════ -->
+<div class="page-overlay" id="pg-about">
+  <div class="page-nav">
+    <div class="page-nav-logo" id="about-nav-logo">NOCT<b>IS</b></div>
+    <div class="page-back" onclick="closePage('pg-about')">← BACK</div>
+  </div>
+  <div class="page-hero">
+    <div class="page-hero-eyebrow" id="about-eyebrow">NIGHT.INC</div>
+    <div class="page-hero-h" id="about-h"></div>
+    <div class="page-hero-sub" id="about-sub"></div>
+  </div>
+  <div class="about-story" id="about-story"></div>
+  <div class="about-values">
+    <div class="lbl">What We Stand For</div>
+    <div class="htitle">VALUES</div>
+    <div class="about-values-grid" id="about-values"></div>
+  </div>
+  <div class="about-contact">
+    <div>
+      <div class="about-contact-lbl">GET IN TOUCH</div>
+      <a class="about-contact-email" id="about-email" href="mailto:hello@night.inc">HELLO@NIGHT.INC</a>
+    </div>
+    <a class="btn-red" style="max-width:200px" id="about-shop-btn" href="#shop" onclick="closePage('pg-about')">SHOP NOW →</a>
+  </div>
+</div>
+
+<!-- ════ POLICY PAGE ════ -->
+<div class="page-overlay" id="pg-policy">
+  <div class="page-nav">
+    <div class="page-nav-logo" id="policy-nav-logo">NOCT<b>IS</b></div>
+    <div class="page-back" onclick="closePage('pg-policy')">← BACK</div>
+  </div>
+  <div class="page-hero">
+    <div class="page-hero-eyebrow">NIGHT.INC — LEGAL</div>
+    <div class="page-hero-h" id="policy-h"></div>
+    <div class="page-hero-sub" id="policy-sub"></div>
+  </div>
+  <!-- tabs to switch between privacy / terms -->
+  <div class="filters" style="padding:18px 24px;border-bottom:1px solid var(--line)">
+    <button class="ftab on" onclick="showPolicy(this,'privacy')">Privacy Policy</button>
+    <button class="ftab"    onclick="showPolicy(this,'terms')">Terms of Service</button>
+  </div>
+  <div class="policy-sections" id="policy-body"></div>
+  <div class="policy-updated" id="policy-updated"></div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet">
+    <!-- LEFT COLUMN: image gallery -->
+    <div class="modal-gallery" id="modal-gallery">
+      <div class="mg-close" onclick="closeModal()">✕</div>
+      <div class="mg-track"  id="mg-track"></div>
+      <button class="mg-arrow prev" onclick="mgMove(-1)">‹</button>
+      <button class="mg-arrow next" onclick="mgMove(1)">›</button>
+      <div class="mg-dots"   id="mg-dots"></div>
+    </div>
+    <!-- RIGHT COLUMN: product info -->
+    <div>
+      <div class="modal-handle"></div>
+      <div class="modal-body">
+        <div class="modal-name"  id="modal-name"></div>
+        <div class="modal-sub"   id="modal-sub"></div>
+        <div class="modal-price" id="modal-price"></div>
+        <div class="modal-desc"  id="modal-desc"></div>
+        <!-- thumbnail strip (shows when > 1 image) -->
+        <div class="mg-thumbs"  id="mg-thumbs"></div>
+        <!-- color picker injected here by JS -->
+        <div id="modal-color-section"></div>
+        <div class="modal-sz-lbl">SELECT SIZE</div>
+        <div class="modal-sizes" id="modal-sizes"></div>
+        <button class="modal-atc off" id="modal-atc" onclick="modalBuy()">SELECT A SIZE</button>
+        <a class="modal-sq" id="modal-sq" href="#" target="_blank" style="display:none">BUY ON SQUARE →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIZE GUIDE -->
+<div class="sg-bg" id="sg-bg" onclick="if(event.target===this)closeSG()">
+  <div class="sg-box">
+    <div class="sg-head"><div class="sg-title">SIZE GUIDE</div><span class="sg-x" onclick="closeSG()">✕</span></div>
+    <div class="sg-body">
+      <p style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--red);margin-bottom:16px">MEASUREMENTS IN INCHES</p>
+      <table>
+        <tr><th>SIZE</th><th>CHEST</th><th>LENGTH</th><th>SLEEVE</th></tr>
+        <tr><td>XS</td><td>36–38</td><td>27</td><td>32</td></tr>
+        <tr><td>S</td> <td>38–40</td><td>28</td><td>33</td></tr>
+        <tr><td>M</td> <td>40–42</td><td>29</td><td>34</td></tr>
+        <tr><td>L</td> <td>42–44</td><td>30</td><td>35</td></tr>
+        <tr><td>XL</td><td>44–46</td><td>31</td><td>36</td></tr>
+        <tr><td>XXL</td><td>46–48</td><td>32</td><td>37</td></tr>
+      </table>
+      <div class="sg-note">Tees run slightly oversized — size down for fitted.<br>Hoodies are intentionally oversized.</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO SHEET -->
+<div class="info-bg" id="info-bg" onclick="if(event.target===this)closeInfo()">
+  <div class="info-sheet">
+    <div class="info-head">
+      <div class="info-title" id="info-title"></div>
+      <span class="info-x" onclick="closeInfo()">✕</span>
+    </div>
+    <div class="info-body" id="info-body"></div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart" id="cart">
+  <div class="cart-handle"></div>
+  <div class="cart-head">
+    <div class="cart-ttl">YOUR BAG</div>
+    <button class="cart-x" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body">
+    <div class="cart-empty" id="cart-empty">YOUR BAG IS EMPTY</div>
+    <div id="cart-items"></div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row">
+      <div class="cart-total-lbl">SUBTOTAL</div>
+      <div class="cart-total-val" id="cart-total">$0</div>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">CHECKOUT →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-lbl">ADDED TO BAG</div>
+  <div class="toast-txt" id="toast-txt"></div>
+</div>
+
+<script>
+/* ── SVG PLACEHOLDERS ─────────────────────────────────────── */
+const PH = {
+  tees:`<svg viewBox="0 0 220 268" xmlns="http://www.w3.org/2000/svg" width="90%"><path d="M46 28L0 84 46 93 46 252 174 252 174 93 220 84 174 28 146 13C146 13 132 37 110 37C88 37 74 13 74 13Z" fill="#111"/><ellipse cx="110" cy="148" rx="46" ry="52" fill="#1c1c1c" stroke="#2e2e2e"/><ellipse cx="97" cy="137" rx="12" ry="14" fill="#0d0d0d"/><ellipse cx="123" cy="137" rx="12" ry="14" fill="#0d0d0d"/><rect x="98" y="178" width="9" height="20" rx="3" fill="#0d0d0d"/><rect x="110" y="175" width="9" height="23" rx="3" fill="#0d0d0d"/><rect x="122" y="178" width="9" height="20" rx="3" fill="#0d0d0d"/><text x="110" y="88" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="22" fill="#c0c0c0" letter-spacing="2">2AM</text><polygon points="110,40 104,56 110,56 104,70 114,52 109,52" fill="#e8000d" opacity=".9"/></svg>`,
+  hoodies:`<svg viewBox="0 0 220 265" xmlns="http://www.w3.org/2000/svg" width="90%"><path d="M110 8C92 8 67 16 50 29L4 65 25 77 25 250 195 250 195 77 216 65 170 29C153 16 128 8 110 8Z" fill="#181818"/><path d="M77 9Q110 46 143 9Q127 0 110 0Q93 0 77 9" fill="#111" stroke="#222"/><ellipse cx="110" cy="142" rx="40" ry="46" fill="#1e1e1e" stroke="#2e2e2e"/><text x="110" y="82" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="18" fill="#aaa" letter-spacing="2">2AM</text><polygon points="110,44 105,57 110,57 105,69 114,53 110,53" fill="#e8000d" opacity=".85"/></svg>`,
+  accessories:`<svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg" width="90%"><path d="M35 120Q52 58 140 52Q228 58 245 120Q206 131 155 133L210 162Q164 167 140 165Q116 167 70 162L125 133Q74 131 35 120Z" fill="#141414" stroke="#222"/><path d="M50 125Q140 144 230 125Q223 162 140 165Q57 162 50 125Z" fill="#0f0f0f" stroke="#1e1e1e"/><ellipse cx="140" cy="88" rx="14" ry="16" fill="#1c1c1c" stroke="#3a3a3a"/><circle cx="140" cy="56" r="4" fill="#1e1e1e" stroke="#2e2e2e"/></svg>`,
+};
+function ph(cat) {
+  return `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center">${PH[cat]||PH.tees}</div>`;
+}
+
+/* ── COLOR UTILITY ────────────────────────────────────────── */
+// Human-readable name for common hex colors
+const COLOR_NAMES = {
+  '#000000':'Black', '#0d0d0d':'Black', '#111111':'Black', '#1a1a1a':'Charcoal',
+  '#2a2a2a':'Dark Grey', '#555555':'Grey', '#888888':'Grey', '#aaaaaa':'Light Grey',
+  '#ffffff':'White', '#f0ede8':'Cream', '#f5f5f5':'Off White',
+  '#cc1111':'Red', '#e8000d':'Red', '#b5000a':'Dark Red',
+  '#0000ff':'Blue', '#000080':'Navy', '#ffffff':'White',
+};
+function colorName(hex) {
+  return COLOR_NAMES[hex.toLowerCase()] || hex.toUpperCase();
+}
+// Is this color light enough to need dark text/check?
+function isLight(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return (r*299 + g*587 + b*114) / 1000 > 140;
+}
+// Build swatch HTML for product grid cards
+function swatchesHtml(colors, name) {
+  if (!colors || !colors.length) return '';
+  return `<div class="pcard-colors">${colors.map((c,i)=>`
+    <div class="pcard-swatch${i===0?' sel':''}"
+      style="background:${c}"
+      title="${colorName(c)}"
+      onclick="event.stopPropagation();cardPickColor(this,'${name}','${c}')">
+    </div>`).join('')}</div>`;
+}
+
+// Track selected color per product card
+const cardColors = {};
+function cardPickColor(el, name, color) {
+  cardColors[name] = color;
+  // update swatch selection on card
+  const card = el.closest('.pcard') || el.closest('.feat-in');
+  if (card) card.querySelectorAll('.pcard-swatch').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+/* ── BRAND SWITCHER ───────────────────────────────────────── */
+function go(b) {
+  currentBrand = b === 'noctis' ? 'noctis' : 'twam';
+  currentBrand2 = currentBrand;
+  document.body.className = b === 'noctis' ? 'nv' : 'ta';
+  document.getElementById('pg-noctis').style.display = b === 'noctis' ? '' : 'none';
+  document.getElementById('pg-2am').style.display    = b === '2am'    ? '' : 'none';
+  document.getElementById('btn-n').classList.toggle('on', b === 'noctis');
+  document.getElementById('btn-t').classList.toggle('on', b === '2am');
+  document.title = b === 'noctis' ? 'NOCTIS — Technology' : '2AM — Dark Luxury Streetwear';
+  if (b === 'noctis') {
+    document.getElementById('logo').innerHTML = 'NOCT<b>IS</b>';
+    document.getElementById('nav-links').innerHTML = `<li><a href="#n-products">Products</a></li><li><a href="#n-mission">Mission</a></li><li><a href="#" onclick="openPage('pg-about','noctis');return false">About</a></li>`;
+    document.getElementById('mmenu-links').innerHTML = `<li><a href="#n-products" onclick="toggleMenu()">Products</a></li><li><a href="#n-mission" onclick="toggleMenu()">Mission</a></li>`;
+    const t = ['APEX — FREE ON APP STORE','BUILT BY NIGHT.INC','AI-POWERED TOOLS','NO SIGNAL. NO APOLOGIES.'];
+    document.getElementById('ticker').innerHTML = [...t,...t].map(s=>`<span>${s}</span><span>⚡</span>`).join('');
+  } else {
+    document.getElementById('logo').innerHTML = '2AM';
+    document.getElementById('nav-links').innerHTML = `<li><a href="#shop">Shop</a></li><li><a href="#" onclick="openPage('pg-about','twam');return false">About</a></li><li><a href="#" onclick="openPage('pg-policy');return false">Legal</a></li>`;
+    document.getElementById('mmenu-links').innerHTML = `<li><a href="#shop" onclick="toggleMenu()">Shop</a></li><li><a href="#about-2am" onclick="toggleMenu()">About</a></li>`;
+    const t = ['FREE SHIPPING OVER $150','SS25 — LIVE NOW','NO SIGNAL. NO APOLOGIES.','SKULL SNAPBACK AVAILABLE'];
+    document.getElementById('ticker').innerHTML = [...t,...t].map(s=>`<span>${s}</span><span>✦</span>`).join('');
+  }
+  window.scrollTo({ top:0, behavior:'instant' });
+}
+
+/* ── NAV ──────────────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('stuck', scrollY > 60);
+}, { passive:true });
+const mq = matchMedia('(min-width:768px)');
+mq.addEventListener('change', () => {
+  document.getElementById('nav-links').style.display = mq.matches ? 'flex' : 'none';
+});
+
+/* ── MOBILE MENU ──────────────────────────────────────────── */
+let menuOpen = false;
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('mmenu').classList.toggle('open', menuOpen);
+  document.getElementById('burger').classList.toggle('x', menuOpen);
+  document.body.style.overflow = menuOpen ? 'hidden' : '';
+}
+
+/* ── RENDER NOCTIS ────────────────────────────────────────── */
+function renderNoctis() {
+  document.getElementById('tc-grid').innerHTML = TECH.map(p => `
+    <div class="tc">
+      <div class="tc-body">
+        <div class="tc-top">
+          <div class="tc-icon">${p.image ? `<img src="${p.image}" alt="">` : `<span class="tc-icon-txt">${p.name.slice(0,2)}</span>`}</div>
+          <span class="tc-badge ${p.badge}">${p.badge}</span>
+        </div>
+        <div class="tc-name">${p.name}</div>
+        <div class="tc-sub">${p.sub}</div>
+        <div class="tc-desc">${p.desc}</div>
+        <div class="tc-terminal"><span class="p">$</span> ${p.name.toLowerCase()} --launch<br><span class="p">$</span> system.ready<br><span class="p">$</span> <span style="animation:blink 1s infinite">█</span></div>
+      </div>
+      <div class="tc-foot">
+        <div class="tc-price">${p.price===0 ? '<b>FREE</b>' : p.status==='soon' ? '<b>COMING SOON</b>' : `<b>$${p.price}</b>`}</div>
+        ${p.status==='soon'
+          ? `<button class="tc-cta ghost" onclick="showToast('${p.name} — coming soon')">NOTIFY ME →</button>`
+          : `<a class="tc-cta" href="${p.link}" target="_blank">${p.name==='APEX' ? 'GET ON APP STORE →' : 'DOWNLOAD →'}</a>`
+        }
+      </div>
+    </div>`).join('');
+
+  const missions = [
+    ['BUILD AFTER HOURS', 'Everything we ship gets built at night. No corporate structure, no permission needed. Just code and focus.'],
+    ['AI AT THE CORE',    "Every product is AI-native from day one. Not bolted on — it's the foundation we build on."],
+    ['OWN YOUR STACK',    'Night.inc is self-funded, solo-founded. We answer to our users, not investors.'],
+    ['LONG GAME ONLY',    'No shortcuts. No hype cycles. We build products designed to last and improve lives.'],
+  ];
+  document.getElementById('missions').innerHTML = missions.map(([t,p],i)=>`
+    <div class="mission rv d${i+1}">
+      <div class="mission-n">0${i+1}</div>
+      <div class="mission-t">${t}</div>
+      <div class="mission-p">${p}</div>
+    </div>`).join('');
+
+  const w1 = ['NOCTIS','APEX','NIGHT.INC','BUILT DIFFERENT','AI NATIVE'];
+  const w2 = ['NIGHTOS','NIGHTBROWSER','NO RULES','DARK TECH','OPEN SOURCE'];
+  document.getElementById('ns1').innerHTML = [...w1,...w1].map(w=>`<span>${w}</span><span class="r">⚡</span>`).join('');
+  document.getElementById('ns2').innerHTML = [...w2,...w2].map(w=>`<span>${w}</span><span class="r">⚡</span>`).join('');
+  setHref('nf-ig', SOCIAL.instagram); setHref('nf-tt', SOCIAL.tiktok); setHref('nf-x', SOCIAL.twitter);
+  rvObserve();
+}
+
+/* ── RENDER 2AM ───────────────────────────────────────────── */
+function render2am() {
+  const feat = CLOTHING.find(p => p.featured) || CLOTHING[0];
+  const grid = CLOTHING.filter(p => !p.featured);
+
+  // hero image
+  document.getElementById('t-hero-img').innerHTML = getImages(feat)[0]
+    ? `<img src="${getImages(feat)[0]}" alt="${feat.name}">`
+    : PH[feat.category] || PH.tees;
+
+  // featured card (no swatches on hero — keep it clean)
+  document.getElementById('featured').innerHTML = `
+    <div class="feat">
+      <div class="feat-in">
+        <div>
+          ${feat.badge && feat.badge!=='SOLD OUT' ? `<span class="feat-badge">${feat.badge}</span>` : ''}
+          <div class="feat-img">${getImages(feat)[0] ? `<img src="${getImages(feat)[0]}" alt="${feat.name}">` : PH[feat.category]||PH.tees}</div>
+        </div>
+        <div class="feat-bot">
+          <div><div class="feat-name">${feat.name}</div><div class="feat-sub">${feat.sub}</div></div>
+          <div class="feat-price">$${feat.price}</div>
+        </div>
+      </div>
+      ${feat.soldOut
+        ? `<button class="feat-btn sold">SOLD OUT</button>`
+        : feat.square
+          ? `<a class="feat-btn" href="${feat.square}" target="_blank">BUY NOW — $${feat.price}</a>`
+          : `<button class="feat-btn" onclick="openModal('${feat.name}')">SHOP NOW — $${feat.price}</button>`
+      }
+    </div>`;
+
+  // product grid — with color swatches
+  document.getElementById('pgrid').innerHTML = grid.map((p,i) => {
+    const isWide = i === grid.length-1 && grid.length%2 !== 0;
+    const stockTxt = p.soldOut ? 'OUT OF STOCK' : p.stock<=3&&p.stock>0 ? `ONLY ${p.stock} LEFT` : p.stock<=8&&p.stock>0 ? `${p.stock} IN STOCK` : '';
+    const stockCls = p.soldOut ? 'out' : p.stock<=3 ? 'low' : '';
+    return `
+      <div class="pcard${isWide?' wide':''}" data-cat="${p.category}">
+        ${p.badge ? `<div class="pbadge ${p.badge}">${p.badge}</div>` : ''}
+        <div class="pcard-img" onclick="openModal('${p.name}')" style="cursor:pointer">
+          <div class="pcard-img-in">${getImages(p)[0] ? `<img src="${getImages(p)[0]}" alt="${p.name}">` : ph(p.category)}</div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-name" onclick="openModal('${p.name}')">${p.name}</div>
+          <div class="pcard-sub">${p.sub}</div>
+          ${stockTxt ? `<div class="pcard-stock ${stockCls}">${stockTxt}</div>` : ''}
+          ${swatchesHtml(p.colors, p.name)}
+          <div class="pcard-row">
+            <div class="pcard-price" ${p.soldOut?'style="text-decoration:line-through;color:var(--dim)"':''}>$${p.price}</div>
+            ${p.soldOut
+              ? `<button class="pcard-add sold">✕</button>`
+              : p.square
+                ? `<a class="pcard-add sq" href="${p.square}" target="_blank">BUY</a>`
+                : `<button class="pcard-add" onclick="openModal('${p.name}')">+</button>`
+            }
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // lookbook
+  const lbItems = CLOTHING.filter(p => !p.soldOut).slice(0,6);
+  document.getElementById('lb').innerHTML = lbItems.map((p,i) => `
+    <div class="lb-card">
+      <div class="lb-img">${getImages(p)[0] ? `<img src="${getImages(p)[0]}" alt="${p.name}">` : ph(p.category)}</div>
+      <div class="lb-info">
+        <div class="lb-cat">${p.badge||p.category.toUpperCase()}</div>
+        <div class="lb-name">${p.name}</div>
+        <div class="lb-price">$${p.price} — ${p.sub}</div>
+        <div class="lb-cta" onclick="openModal('${p.name}')">SHOP NOW →</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('lb-dots').innerHTML = lbItems.map((_,i)=>`<div class="lb-dot${i===0?' on':''}" onclick="lbGo(${i})"></div>`).join('');
+  document.getElementById('lb').addEventListener('scroll', () => {
+    const s = document.getElementById('lb');
+    const idx = Math.round(s.scrollLeft / (s.querySelector('.lb-card')?.offsetWidth||1));
+    document.querySelectorAll('.lb-dot').forEach((d,i) => d.classList.toggle('on', i===idx));
+  }, { passive:true });
+
+  const w1 = ['2AM','OVERTHINKING','NO SIGNAL','DARK LUXURY','SS25'];
+  const w2 = ['2AM.CO','EST. 2025','DARK LUXURY','NO RULES','BUILT DIFFERENT'];
+  document.getElementById('ts1').innerHTML = [...w1,...w1].map(w=>`<span>${w}</span><span class="r">✦</span>`).join('');
+  document.getElementById('ts2').innerHTML = [...w2,...w2].map(w=>`<span>${w}</span><span class="r">★</span>`).join('');
+
+  ['sl-ig','tf-ig','ms-ig'].forEach(id => setHref(id, SOCIAL.instagram));
+  ['sl-tt','tf-tt','ms-tt'].forEach(id => setHref(id, SOCIAL.tiktok));
+  ['sl-x', 'tf-x', 'ms-x' ].forEach(id => setHref(id, SOCIAL.twitter));
+  rvObserve();
+}
+
+function lbGo(i) {
+  const s = document.getElementById('lb');
+  s.scrollTo({ left: i * ((s.querySelector('.lb-card')?.offsetWidth||0)+2), behavior:'smooth' });
+}
+
+/* ── FILTER ───────────────────────────────────────────────── */
+function filter(btn, cat) {
+  if (btn) { document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on')); btn.classList.add('on'); }
+  document.querySelectorAll('.pcard').forEach(c => {
+    c.style.display = (cat==='all' || c.dataset.cat===cat) ? '' : 'none';
+  });
+}
+
+/* ── PRODUCT MODAL ────────────────────────────────────────── */
+const SIZES = { tees:['XS','S','M','L','XL','XXL'], hoodies:['XS','S','M','L','XL','XXL'], accessories:['ONE SIZE'] };
+let modalProduct=null, selectedSize=null, selectedColor=null;
+
+// Helper: get all images for a product (supports both image: "url" and images: [...])
+function getImages(p) {
+  // supports: images: [...], image: "file.jpg", or image: [...] (all work)
+  if (Array.isArray(p.images) && p.images.length) return p.images;
+  if (Array.isArray(p.image)  && p.image.length)  return p.image;
+  if (typeof p.image === 'string' && p.image)      return [p.image];
+  return [];
+}
+
+// Current slide index for the gallery
+let mgIdx = 0;
+
+function openModal(name) {
+  const p = CLOTHING.find(x => x.name===name);
+  if (!p) return;
+  modalProduct=p; selectedSize=null; mgIdx=0;
+
+  // pre-select color from card if already picked, else first color
+  selectedColor = cardColors[name] || (p.colors&&p.colors.length ? p.colors[0] : null);
+
+  // ── BUILD IMAGE GALLERY ──
+  const imgs = getImages(p);
+  const track  = document.getElementById('mg-track');
+  const dots   = document.getElementById('mg-dots');
+  const thumbs = document.getElementById('mg-thumbs');
+
+  if (imgs.length) {
+    // slides
+    track.innerHTML = imgs.map(src =>
+      `<div class="mg-slide"><img src="${src}" alt="${p.name}"></div>`
+    ).join('');
+    // dots (only if > 1 image)
+    dots.innerHTML = imgs.length > 1
+      ? imgs.map((_,i) => `<div class="mg-dot${i===0?' on':''}" onclick="mgGoTo(${i})"></div>`).join('')
+      : '';
+    // thumbs (only if > 1 image)
+    thumbs.innerHTML = imgs.length > 1
+      ? imgs.map((src,i) =>
+          `<div class="mg-thumb${i===0?' on':''}" onclick="mgGoTo(${i})"><img src="${src}" alt=""></div>`
+        ).join('')
+      : '';
+    thumbs.style.display = imgs.length > 1 ? 'flex' : 'none';
+  } else {
+    // no images — show placeholder
+    track.innerHTML = `<div class="mg-slide">${ph(p.category)}</div>`;
+    dots.innerHTML = '';
+    thumbs.innerHTML = ''; thumbs.style.display = 'none';
+  }
+
+  // listen for swipe scroll on track to update dots + thumbs
+  track.onscroll = () => {
+    const w = track.querySelector('.mg-slide')?.offsetWidth || 1;
+    mgIdx = Math.round(track.scrollLeft / w);
+    document.querySelectorAll('.mg-dot').forEach((d,i)  => d.classList.toggle('on', i===mgIdx));
+    document.querySelectorAll('.mg-thumb').forEach((t,i) => t.classList.toggle('on', i===mgIdx));
+  };
+
+  // ── PRODUCT INFO ──
+  document.getElementById('modal-name').textContent  = p.name;
+  document.getElementById('modal-sub').textContent   = p.sub;
+  document.getElementById('modal-price').textContent = p.soldOut ? 'SOLD OUT' : '$'+p.price;
+  document.getElementById('modal-desc').textContent  = p.desc||'';
+
+  // ── COLOR PICKER ──
+  const colorSection = document.getElementById('modal-color-section');
+  if (p.colors && p.colors.length) {
+    colorSection.innerHTML = `
+      <div class="modal-color-lbl">COLOR — <span id="modal-color-name">${colorName(selectedColor)}</span></div>
+      <div class="modal-colors">${p.colors.map((c,i)=>`
+        <div class="modal-swatch${i===0?' sel':''}${isLight(c)?' light':''}"
+          style="background:${c}"
+          onclick="modalPickColor('${c}',this)"
+          title="${colorName(c)}">
+        </div>`).join('')}
+      </div>`;
+  } else {
+    colorSection.innerHTML = '';
+  }
+
+  // ── SIZES ──
+  const sizes = SIZES[p.category]||['ONE SIZE'];
+  const oneSize = sizes[0]==='ONE SIZE';
+  if (oneSize) selectedSize='ONE SIZE';
+  document.getElementById('modal-sizes').innerHTML = sizes.map(s=>
+    `<button class="sz${oneSize?' on':''}" onclick="pickSize('${s}',this)">${s}</button>`
+  ).join('');
+
+  // ── BUTTONS ──
+  const atc=document.getElementById('modal-atc');
+  const sq =document.getElementById('modal-sq');
+  if (p.soldOut) {
+    atc.textContent='SOLD OUT'; atc.className='modal-atc off'; sq.style.display='none';
+  } else if (p.square) {
+    sq.href=p.square; sq.style.display='block';
+    atc.textContent=oneSize?'+ ADD TO BAG':'SELECT A SIZE';
+    atc.className=oneSize?'modal-atc':'modal-atc off';
+  } else {
+    sq.style.display='none';
+    atc.textContent=oneSize?'+ ADD TO BAG':'SELECT A SIZE';
+    atc.className=oneSize?'modal-atc':'modal-atc off';
+  }
+
+  document.getElementById('modal-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+// Jump to a specific slide
+function mgGoTo(i) {
+  mgIdx = i;
+  const track = document.getElementById('mg-track');
+  const w = track.querySelector('.mg-slide')?.offsetWidth || 0;
+  track.scrollTo({ left: i * w, behavior: 'smooth' });
+  document.querySelectorAll('.mg-dot').forEach((d,j)  => d.classList.toggle('on', j===i));
+  document.querySelectorAll('.mg-thumb').forEach((t,j) => t.classList.toggle('on', j===i));
+}
+
+// Arrow button navigation
+function mgMove(dir) {
+  const track = document.getElementById('mg-track');
+  const total = track.querySelectorAll('.mg-slide').length;
+  mgGoTo(Math.max(0, Math.min(total-1, mgIdx+dir)));
+}
+
+function modalPickColor(color, btn) {
+  selectedColor = color;
+  cardColors[modalProduct?.name] = color;  // sync back to card
+  document.querySelectorAll('.modal-swatch').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  const nameEl = document.getElementById('modal-color-name');
+  if (nameEl) nameEl.textContent = colorName(color);
+}
+
+function pickSize(size, btn) {
+  document.querySelectorAll('.sz').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  selectedSize=size;
+  const atc=document.getElementById('modal-atc');
+  atc.textContent='+ ADD TO BAG'; atc.className='modal-atc';
+}
+
+function modalBuy() {
+  if (!selectedSize||!modalProduct) return;
+  // Build cart label: Name / Color / Size
+  let label = modalProduct.name;
+  if (selectedColor) label += ' / ' + colorName(selectedColor);
+  if (selectedSize!=='ONE SIZE') label += ' / ' + selectedSize;
+  addToCart(label, modalProduct.price, getImages(modalProduct)[0] || "");
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').classList.remove('on');
+  document.body.style.overflow='';
+  modalProduct=null; selectedSize=null;
+}
+
+/* ── CART ─────────────────────────────────────────────────── */
+let bag=[];
+function addToCart(name, price, image) {
+  const ex=bag.find(i=>i.name===name);
+  if(ex){ex.qty++;}else{bag.push({name,price,image,qty:1});}
+  renderCart(); showToast(name+' — $'+price); openCart();
+}
+function removeItem(name) { bag=bag.filter(i=>i.name!==name); renderCart(); }
+function renderCart() {
+  const count=bag.reduce((s,i)=>s+i.qty,0);
+  const total=bag.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('bag-n').textContent      = count;
+  document.getElementById('cart-total').textContent = '$'+total;
+  const emp=document.getElementById('cart-empty'), items=document.getElementById('cart-items');
+  if(!bag.length){emp.style.display='';items.innerHTML='';return;}
+  emp.style.display='none';
+  items.innerHTML=bag.map(i=>`
+    <div class="ci">
+      <div class="ci-thumb">${i.image?`<img src="${i.image}" alt="">`:
+        '<svg viewBox="0 0 60 72" width="50" xmlns="http://www.w3.org/2000/svg"><path d="M10 8L0 23 10 26 10 66 50 66 50 26 60 23 50 8 40 3C40 3 35 12 30 12C25 12 20 3 20 3Z" fill="#1e1e1e"/><text x="30" y="42" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="9" fill="#555">2A</text></svg>'}</div>
+      <div class="ci-det">
+        <div class="ci-name">${i.name}</div>
+        <div class="ci-meta">QTY: ${i.qty}</div>
+        <div class="ci-price">$${i.price*i.qty}</div>
+      </div>
+      <button class="ci-rm" onclick="removeItem('${i.name.replace(/'/g,"\\'")}')">✕</button>
+    </div>`).join('');
+}
+function openCart()  { document.getElementById('cart').classList.add('on'); document.getElementById('cart-overlay').classList.add('on'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cart').classList.remove('on'); document.getElementById('cart-overlay').classList.remove('on'); document.body.style.overflow=''; }
+function checkout() {
+  if(!bag.length) return;
+  const p=CLOTHING.find(x=>bag[0].name.startsWith(x.name));
+  if(p&&p.square){window.open(p.square,'_blank');}
+  else{showToast('Add your Square link to the product');}
+}
+// swipe cart to close
+(()=>{const c=document.getElementById('cart');let sy=0;c.addEventListener('touchstart',e=>{sy=e.touches[0].clientY},{passive:true});c.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-sy>60)closeCart()},{passive:true})})();
+
+/* ── TOAST ────────────────────────────────────────────────── */
+function showToast(txt) {
+  const el=document.getElementById('toast');
+  document.getElementById('toast-txt').textContent=txt;
+  el.classList.add('on'); clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('on'),2600);
+}
+
+/* ── INFO MODALS ──────────────────────────────────────────── */
+function openInfo(type) {
+  const d=INFO[type]; if(!d) return;
+  document.getElementById('info-title').textContent=d.title;
+  document.getElementById('info-body').innerHTML=d.items.map(([h,p])=>`
+    <div class="info-row"><h3>${h}</h3><p>${p}</p></div>`).join('');
+  document.getElementById('info-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeInfo() { document.getElementById('info-bg').classList.remove('on'); document.body.style.overflow=''; }
+function openSG()    { document.getElementById('sg-bg').classList.add('on');     document.body.style.overflow='hidden'; }
+function closeSG()   { document.getElementById('sg-bg').classList.remove('on');  document.body.style.overflow=''; }
+
+/* ── NEWSLETTER ───────────────────────────────────────────── */
+function nlSubmit(e) {
+  e.preventDefault();
+  const v=document.getElementById('nl-email').value.trim();
+  if(v){showToast('Welcome — '+v);document.getElementById('nl-email').value='';}
+}
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
+let rvObs;
+function rvObserve() {
+  if(!rvObs) rvObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+  },{threshold:.1});
+  document.querySelectorAll('.rv:not(.in)').forEach(el=>rvObs.observe(el));
+}
+
+/* ── HELPER ───────────────────────────────────────────────── */
+function setHref(id, url) { const el=document.getElementById(id); if(el)el.href=url; }
+
+
+/* ── PAGE SYSTEM (About + Policy) ────────────────────────── */
+let currentBrand2 = 'noctis'; // tracks which brand for About page
+
+function openPage(id, brand) {
+  const pg = document.getElementById(id);
+  if (!pg) return;
+  if (id === 'pg-about')  buildAbout(brand || currentBrand2);
+  if (id === 'pg-policy') buildPolicy('privacy');
+  pg.classList.add('open');
+  pg.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closePage(id) {
+  document.getElementById(id)?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function buildAbout(brand) {
+  const is2am = brand === 'twam' || brand === '2am';
+  const d = is2am ? ABOUT.twam : ABOUT.noctis;
+
+  document.getElementById('about-nav-logo').innerHTML = is2am
+    ? '<span style="letter-spacing:8px">2AM</span>'
+    : 'NOCT<b>IS</b>';
+  document.getElementById('about-eyebrow').textContent = is2am
+    ? '2AM — A NIGHT.INC BRAND' : 'NIGHT.INC';
+
+  // headline split for outline effect
+  const words = d.headline.replace(/[.!?]/g,'').split(' ');
+  const half = Math.ceil(words.length / 2);
+  document.getElementById('about-h').innerHTML =
+    `<span>${words.slice(0,half).join(' ')}</span><span class="out">${words.slice(half).join(' ')}</span>`;
+
+  document.getElementById('about-sub').textContent = d.sub;
+  document.getElementById('about-story').innerHTML =
+    d.story.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('about-values').innerHTML =
+    d.values.map(([t,p]) => `
+      <div class="about-value">
+        <div class="about-value-title">${t}</div>
+        <div class="about-value-text">${p}</div>
+      </div>`).join('');
+  document.getElementById('about-email').href = 'mailto:' + d.contact;
+  document.getElementById('about-email').textContent = d.contact.toUpperCase();
+  const shopBtn = document.getElementById('about-shop-btn');
+  shopBtn.style.display = is2am ? 'block' : 'none';
+}
+
+function buildPolicy(type) {
+  const d = POLICIES[type]; if (!d) return;
+  const words = d.title.split(' ');
+  document.getElementById('policy-h').innerHTML =
+    `<span>${words[0]}</span><span class="out">${words.slice(1).join(' ')}</span>`;
+  document.getElementById('policy-body').innerHTML =
+    d.sections.map(([h,p]) => `
+      <div class="policy-section"><h3>${h}</h3><p>${p}</p></div>`).join('');
+  document.getElementById('policy-updated').textContent = 'LAST UPDATED: ' + d.updated;
+}
+
+function showPolicy(btn, type) {
+  document.querySelectorAll('#pg-policy .ftab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  buildPolicy(type);
+}
+
+/* ── START ────────────────────────────────────────────────── */
+renderNoctis();
+render2am();
+go('noctis');
+</script>
+</body>
+</html>
